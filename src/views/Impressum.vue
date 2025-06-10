@@ -35,7 +35,7 @@
               Berufsbezeichnung und berufsrechtliche Regelungen
             </h2>
             <div class="space-y-2">
-              <p><strong>Berufsbezeichnung:</strong> Kreativpädagogin</p>
+              <p><strong>Berufsbezeichnung:</strong> Pädagogin & Künstlerin</p>
               <p><strong>Zuständige Kammer:</strong> [Falls zutreffend]</p>
               <p><strong>Verliehen in:</strong> Deutschland</p>
             </div>

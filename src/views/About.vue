@@ -10,7 +10,7 @@
           Hallo! Ich bin [Dein Name] 👋
         </h1>
         <p class="text-xl font-comic text-gray-700 max-w-3xl mx-auto leading-relaxed">
-          Kreativpädagogin und leidenschaftliche Künstlerin. Mit meinen Angeboten 
+          Ich bin Jo-Ann Bachhuber, Pädagogin und leidenschaftliche Künstlerin. Mit meinen Angeboten 
           fördere ich die Fantasie und Medienkompetenz von Kindern auf spielerische 
           und liebevolle Weise. ✨
         </p>

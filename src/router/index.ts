@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 import ArtProjects from '../views/ArtProjects.vue';
@@ -6,9 +6,9 @@ import Contact from '../views/Contact.vue';
 import Products from '../views/Products.vue';
 import Impressum from '../views/Impressum.vue';
 import Datenschutz from '../views/Datenschutz.vue';
-import NotFound from '../views/NotFound.vue';
 
-const routes = [
+
+const routes: Array<RouteRecordRaw> = [
   { path: '/', name: 'Home', component: Home },
   { path: '/about', name: 'About', component: About },
   { path: '/art-projects', name: 'ArtProjects', component: ArtProjects },
@@ -16,11 +16,11 @@ const routes = [
   { path: '/products', name: 'Products', component: Products },
   { path: '/impressum', name: 'Impressum', component: Impressum },
   { path: '/datenschutz', name: 'Datenschutz', component: Datenschutz },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+  { path: '/:pathMatch(.*)*', redirect: '/' },
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 });
 

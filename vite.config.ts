@@ -4,7 +4,7 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/kinder-creations-site/',
+  base: '/de',
   plugins: [vue()],
   resolve: {
     alias: {

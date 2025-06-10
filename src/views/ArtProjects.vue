@@ -4,169 +4,300 @@
       <!-- Header -->
       <div class="text-center mb-16">
         <h1 class="text-4xl md:text-5xl font-fredoka font-bold text-gray-800 mb-6">
-          Meine Kunstprojekte 🎨
+          Kunstprojekte & Workshops 🎨
         </h1>
-        <p class="text-xl font-comic text-gray-700 max-w-3xl mx-auto leading-relaxed mb-8">
-          Ich biete kreative Mitmachformate für Kinder, Kitas und Einrichtungen an. 
-          Meine Angebote umfassen:
+        <p class="text-xl font-comic text-gray-700 max-w-3xl mx-auto leading-relaxed">
+          Entdecke kreative Workshops, einzigartige Kunst und Möglichkeiten zur Zusammenarbeit.
+          Hier wird Fantasie lebendig! ✨
         </p>
       </div>
 
-      <!-- Projects -->
       <div class="space-y-16">
-        <div
-          v-for="(project, index) in projects"
-          :key="index"
-          :class="['bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden border border-sky-blue-200 hover:border-sky-blue-400 transition-all duration-300 hover:shadow-lg flex flex-col lg:flex',
-            index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
-          ]"
-        >
-          <!-- Image/Icon -->
-          <div class="lg:w-1/2">
-            <div class="h-64 lg:h-full bg-gradient-to-br from-rose-pink-100 to-grass-green-100 flex items-center justify-center text-8xl animate-float">
-              {{ project.icon }}
-            </div>
-          </div>
+        
+        <!-- Workshops Section -->
+        <section class="bg-white/70 backdrop-blur-sm rounded-3xl p-8 border border-sky-blue-200">
+          <h2 class="text-3xl font-fredoka font-bold text-gray-800 mb-6">Kreativ-Workshops</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div>
+              <p class="font-comic text-lg text-gray-700 mb-6">Wähle einen Workshop, um verfügbare Termine zu sehen. In den Workshops entdecken wir gemeinsam neue Techniken und Materialien.</p>
+              <div class="space-y-4">
+                <!-- Custom Dropdown -->
+                <div class="relative">
+                  <select v-model="selectedWorkshopId" class="w-full appearance-none bg-white border border-gray-300 rounded-full font-comic text-lg px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-sky-blue-400 transition-all">
+                    <option :value="null" disabled>Workshop auswählen...</option>
+                    <option v-for="workshop in workshops" :key="workshop.id" :value="workshop.id">{{ workshop.title }}</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
+                    <ChevronDown class="h-5 w-5" />
+                  </div>
+                </div>
 
-          <!-- Content -->
-          <div class="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
-            <h3 class="text-3xl font-fredoka font-bold text-gray-800 mb-4">
-              {{ project.title }}
-            </h3>
-            <p class="text-gray-700 font-comic text-lg mb-6 leading-relaxed">
-              {{ project.description }}
-            </p>
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                  <button @click="openModal('workshop', 0)" class="creative-button-secondary justify-center">Mehr Infos</button>
+                  <a :href="workshopMailtoLink"
+                    :class="['creative-button-sky-blue justify-center', { 'opacity-50 cursor-not-allowed': !selectedWorkshopId }]"
+                    :aria-disabled="!selectedWorkshopId"
+                    @click="checkWorkshopSelection">
+                    Anfrage via E-Mail
+                  </a>
+                </div>
 
-            <!-- Details -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-              <div v-for="(detail, idx) in project.details" :key="idx" class="flex items-center text-gray-600 font-comic">
-                <span class="w-2 h-2 bg-rose-pink-400 rounded-full mr-3"></span>
-                {{ detail }}
+                <!-- Display Dates -->
+                <transition name="fade">
+                  <div v-if="selectedWorkshopDates.length > 0" class="mt-4 bg-sky-blue-50 p-4 rounded-xl">
+                    <h4 class="font-fredoka font-bold text-sky-blue-800 mb-2">Verfügbare Termine:</h4>
+                    <ul class="list-disc list-inside font-comic text-sky-blue-700">
+                      <li v-for="date in selectedWorkshopDates" :key="date">{{ date }}</li>
+                    </ul>
+                  </div>
+                </transition>
               </div>
             </div>
-
-            <!-- Action Button -->
-            <div class="flex flex-col sm:flex-row gap-4">
-              <button class="creative-button-tertiary flex items-center justify-center">
-                <Calendar class="mr-2 h-5 w-5" />
-                Termin anfragen
-              </button>
-              <button class="creative-button-secondary flex items-center justify-center">
-                <Lightbulb class="mr-2 h-5 w-5" />
-                Mehr Infos
-              </button>
+            <div class="h-64 md:h-full rounded-2xl overflow-hidden shadow-lg">
+              <img :src="testbild" alt="Kreativ-Workshops" class="w-full h-full object-cover">
             </div>
           </div>
-        </div>
-      </div>
+        </section>
 
-      <!-- Bottom Info Section -->
-      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Pricing Info -->
-        <div class="bg-white/70 backdrop-blur-sm rounded-3xl p-8 border border-sunny-yellow-200">
-          <h3 class="text-2xl font-fredoka font-bold text-gray-800 mb-4 flex items-center">
-            <span class="text-3xl mr-3">💰</span>
-            Preise & Konditionen
-          </h3>
-          <div class="space-y-3 font-comic text-gray-700">
-            <p>• <strong>Workshops:</strong> ab 25€ pro Kind (2-4h)</p>
-            <p>• <strong>Wandmalerei:</strong> ab 200€ (je nach Größe)</p>
-            <p>• <strong>Projektwochen:</strong> Individuelle Absprache</p>
-            <p>• <strong>Gruppenprojekte:</strong> ab 150€ pro Tag</p>
-          </div>
-          <p class="text-sm font-comic text-gray-600 mt-4">
-            Alle Materialien und Fahrtkosten (bis 30km) sind inklusive!
-          </p>
-        </div>
+        <!-- Kunstprodukte -->
+        <section class="bg-white/70 backdrop-blur-sm rounded-3xl p-8 border border-rose-pink-200">
+            <h2 class="text-3xl font-fredoka font-bold text-gray-800 mb-6 text-center">Meine Kunst</h2>
+            <p class="font-comic text-lg text-gray-700 mb-8 text-center max-w-2xl mx-auto">Ein kleiner Einblick in meine Werke. Klicke auf ein Bild, um es in voller Größe zu sehen.</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div v-for="(image, index) in artPieces" :key="index" class="overflow-hidden rounded-lg cursor-pointer group" @click="openImage(image.src)">
+                    <img :src="image.src" :alt="image.alt" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300">
+                </div>
+            </div>
+        </section>
 
-        <!-- Booking Info -->
-        <div class="bg-white/70 backdrop-blur-sm rounded-3xl p-8 border border-grass-green-200">
-          <h3 class="text-2xl font-fredoka font-bold text-gray-800 mb-4 flex items-center">
-            <span class="text-3xl mr-3">📅</span>
-            Buchung & Ablauf
-          </h3>
-          <div class="space-y-3 font-comic text-gray-700">
-            <p>• <strong>Anfrage:</strong> Schreib mir deine Idee</p>
-            <p>• <strong>Beratung:</strong> Kostenloses Vorgespräch</p>
-            <p>• <strong>Planung:</strong> Gemeinsame Konzeptentwicklung</p>
-            <p>• <strong>Umsetzung:</strong> Kunst wird lebendig!</p>
+        <!-- Auftragsmalerei -->
+        <section class="bg-white/70 backdrop-blur-sm rounded-3xl p-8 border border-lime-green-200">
+          <h2 class="text-3xl font-fredoka font-bold text-gray-800 mb-6">Auftragsmalerei</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+             <div class="h-64 md:h-full bg-gradient-to-br from-lime-green-100 to-sunny-yellow-100 rounded-2xl flex items-center justify-center text-6xl">
+              🖼️
+            </div>
+            <div>
+              <p class="font-comic text-lg text-gray-700 mb-6">Du hast eine Vision? Ich bringe sie auf die Leinwand. Lass uns gemeinsam dein persönliches Kunstwerk erschaffen.</p>
+              <div class="flex flex-col sm:flex-row gap-4">
+                <button @click="openModal('auftragsmalerei')" class="creative-button-lime-green w-full justify-center">Mehr Infos</button>
+                <a :href="mailtoLinks.auftragsmalerei" class="creative-button-secondary w-full justify-center">Anfrage via E-Mail</a>
+              </div>
+            </div>
           </div>
-          <button class="creative-button-green mt-6 w-full">
-            Jetzt Projekt starten!
-          </button>
+        </section>
+
+        <!-- Gemeinschaftsprojekte -->
+        <section class="bg-white/70 backdrop-blur-sm rounded-3xl p-8 border border-grape-purple-200">
+          <h2 class="text-3xl font-fredoka font-bold text-gray-800 mb-6">Gemeinschaftsprojekte</h2>
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+              <p class="font-comic text-lg text-gray-700 mb-6">Kunst verbindet! Ob in Schulen, Gemeinden oder Unternehmen – ich gestalte kreative Aktionen, die Menschen zusammenbringen.</p>
+              <button @click="openModal('gemeinschaftsprojekte')" class="creative-button-grape-purple w-full justify-center">Mehr Infos</button>
+            </div>
+            <div class="h-64 md:h-full bg-gradient-to-br from-grape-purple-100 to-rose-pink-100 rounded-2xl flex items-center justify-center text-6xl">
+              🤝
+            </div>
+          </div>
+        </section>
+
+        <!-- Offene Ideen & Kooperationen -->
+        <div class="mt-16 text-center bg-white/70 backdrop-blur-sm rounded-3xl p-12 border border-sunny-yellow-200">
+            <h2 class="text-3xl font-fredoka font-bold text-gray-800 mb-4">Offen für Ideen & Kooperationen?</h2>
+            <p class="text-xl font-comic text-gray-700 mb-8 max-w-2xl mx-auto">Du hast eine spannende Idee, eine Anfrage für eine Kollaboration oder ein Projekt? Ich freue mich, von dir zu hören!</p>
+            <a :href="mailtoLinks.kooperationen" class="creative-button-yellow inline-flex items-center">
+                <Mail class="mr-2 h-5 w-5" />
+                Kontakt aufnehmen
+            </a>
         </div>
       </div>
     </div>
+
+    <!-- Fullscreen Image Viewer -->
+    <transition name="fade">
+      <div v-if="imageViewer.isOpen" @click="closeImage" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-pointer">
+        <img :src="imageViewer.src" alt="Vollbild Kunstwerk" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" @click.stop>
+         <button @click.stop="closeImage" class="absolute top-4 right-4 bg-white/80 hover:bg-white rounded-full p-2">
+            <X class="h-6 w-6 text-gray-900" />
+        </button>
+      </div>
+    </transition>
+
+    <!-- Generic Modal -->
+    <transition name="fade">
+        <div v-if="modal.isOpen" @click="closeModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-pointer">
+            <div class="relative bg-white rounded-2xl shadow-2xl max-w-3xl w-full p-8" @click.stop>
+
+                <!-- Workshop Modal Content -->
+                <div v-if="modal.type === 'workshop'">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-fredoka font-bold text-gray-800">{{ workshops[modal.contentIndex].title }}</h3>
+                        <div class="flex items-center gap-2">
+                            <button @click="prevModalContent" class="bg-gray-200 hover:bg-gray-300 rounded-full p-2 transition">
+                                <ChevronLeft class="h-6 w-6" />
+                            </button>
+                            <button @click="nextModalContent" class="bg-gray-200 hover:bg-gray-300 rounded-full p-2 transition">
+                                <ChevronRight class="h-6 w-6" />
+                            </button>
+                        </div>
+                    </div>
+                    <transition name="slide-fade" mode="out-in">
+                      <div :key="workshops[modal.contentIndex].id">
+                        <img :src="workshops[modal.contentIndex].image" class="w-full h-64 object-cover rounded-lg mb-4"/>
+                        <p class="font-comic text-gray-700">{{ workshops[modal.contentIndex].description }}</p>
+                      </div>
+                    </transition>
+                </div>
+
+                <!-- Auftragsmalerei Modal Content -->
+                <div v-if="modal.type === 'auftragsmalerei'">
+                    <h3 class="text-2xl font-fredoka font-bold text-gray-800 mb-4">So läuft deine Auftragsarbeit ab</h3>
+                    <ul class="space-y-4 font-comic text-gray-700">
+                        <li class="flex items-start"><span class="font-bold text-lime-green-600 mr-3">1.</span><div><span class="font-bold">Motiv wählen:</span> Wir besprechen deine Wünsche und Ideen. Du kannst mir Referenzbilder oder eine genaue Beschreibung geben.</div></li>
+                        <li class="flex items-start"><span class="font-bold text-lime-green-600 mr-3">2.</span><div><span class="font-bold">Größe der Leinwand wählen:</span> Von kleinen Formaten bis hin zu großen Wandbildern ist alles möglich.</div></li>
+                        <li class="flex items-start"><span class="font-bold text-lime-green-600 mr-3">3.</span><div><span class="font-bold">Material wählen:</span> Acryl, Öl, Aquarell oder eine Mischtechnik? Wir finden das passende Material für dein Kunstwerk.</div></li>
+                    </ul>
+                </div>
+
+                <!-- Gemeinschaftsprojekte Modal Content -->
+                <div v-if="modal.type === 'gemeinschaftsprojekte'">
+                    <h3 class="text-2xl font-fredoka font-bold text-gray-800 mb-4">Detaillierte Infos zu Gemeinschaftsprojekten</h3>
+                     <ul class="space-y-4 font-comic text-gray-700">
+                        <li class="flex items-start"><span class="font-bold text-grape-purple-600 mr-3">1.</span><div><span class="font-bold">Farbe an die Wand:</span> Gemeinsam gestalten wir Wände in Schulen, Büros oder öffentlichen Räumen zu bunten Kunstwerken.</div></li>
+                        <li class="flex items-start"><span class="font-bold text-grape-purple-600 mr-3">2.</span><div><span class="font-bold">Puzzle-Geschichte:</span> Jede:r Teilnehmer:in gestaltet ein Puzzleteil. Am Ende fügen wir alles zu einer großen, gemeinsamen Geschichte zusammen.</div></li>
+                    </ul>
+                </div>
+
+                 <button @click.stop="closeModal" class="absolute top-4 right-4 bg-gray-200 hover:bg-gray-300 rounded-full p-2">
+                    <X class="h-6 w-6 text-gray-900" />
+                </button>
+            </div>
+        </div>
+    </transition>
+
   </div>
 </template>
 
 <script setup lang="ts">
-import { Calendar, Lightbulb } from 'lucide-vue-next';
+import { ref, reactive, computed } from 'vue';
+import { Mail, X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-vue-next';
+import testbild from '@/assets/testbild.jpg';
 
-const projects = [
-  {
-    title: 'Workshops',
-    icon: '🎨',
-    description: 'Mal- und Bastel-Workshops, angepasst an Alter und Thema. Von Aquarellmalerei bis hin zu Upcycling-Projekten.',
-    details: [
-      'Altersgruppen 3-16 Jahre',
-      '2-4 Stunden Dauer',
-      'Alle Materialien inklusive',
-      'Max. 12 Teilnehmer'
-    ],
-    image: 'https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?w=500&h=400&fit=crop'
-  },
-  {
-    title: 'Auftragsmalerei',
-    icon: '🖼️',
-    description: 'Individuelle Wandbilder für Kinderzimmer & Einrichtungen. Traumhafte Welten, die zum Staunen und Träumen einladen.',
-    details: [
-      'Wandmalerei vor Ort',
-      'Digitale Entwürfe',
-      'Nachhaltige Farben',
-      'Individuelle Motive'
-    ],
-    image: 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500&h=400&fit=crop'
-  },
-  {
-    title: 'Projekte vor Ort',
-    icon: '🏫',
-    description: 'Besuche in Kitas/Schulen für Kunsttage und Projektwochen. Ich bringe die Kunst direkt zu euch!',
-    details: [
-      'Mehrtägige Projekte',
-      'Mobile Ausstattung',
-      'Gruppenprojekte',
-      'Ausstellungen'
-    ],
-    image: 'https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=500&h=400&fit=crop'
-  },
-  {
-    title: 'Kollaborative Kunstaktionen',
-    icon: '🤝',
-    description: 'Gemeinschaftsbilder, jahreszeitliche Kunstwerke & mehr. Zusammen schaffen wir Großartiges!',
-    details: [
-      'Große Gruppenprojekte',
-      'Jahreszeitliche Themen',
-      'Nachbarschaftsaktionen',
-      'Fest-Installationen'
-    ],
-    image: 'https://images.unsplash.com/photo-1517022812141-23620dba5c23?w=500&h=400&fit=crop'
-  },
-  {
-    title: 'Offene Ideen & Kooperationen',
-    icon: '💡',
-    description: 'Hast du eine Idee? Lass uns gemeinsam kreativ werden! Ich bin offen für neue Projekte und Kooperationen.',
-    details: [
-      'Individuelle Konzepte',
-      'Neue Formate',
-      'Kooperationen willkommen',
-      'Experimentelle Ansätze'
-    ],
-    image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=500&h=400&fit=crop'
-  }
-];
+// --- Data ---
+const workshops = ref([
+  { id: 1, title: 'Aquarell-Zauber', description: 'Wir malen mit fließenden Farben und entdecken die Magie des Wassers. Für Anfänger und Fortgeschrittene.', image: testbild, dates: ['15. Juli 2024', '22. Juli 2024'] },
+  { id: 2, title: 'Digitale Kunst am Tablet', description: 'Lerne die Grundlagen des digitalen Zeichnens. Eigene Tablets können mitgebracht werden.', image: testbild, dates: ['05. August 2024', '12. August 2024'] },
+  { id: 3, title: 'Upcycling-Skulpturen', description: 'Aus Alt mach Neu! Wir bauen fantastische Skulpturen aus Recycling-Materialien.', image: testbild, dates: ['10. September 2024'] },
+]);
+
+const artPieces = ref([
+  { src: testbild, alt: 'Abstraktes Gemälde in Blautönen' },
+  { src: testbild, alt: 'Porträtzeichnung mit Kohle' },
+  { src: testbild, alt: 'Landschaft in Acryl' },
+  { src: testbild, alt: 'Digitale Illustration eines Fabelwesens' },
+]);
+
+// --- Workshop Dropdown ---
+const selectedWorkshopId = ref<number | null>(null);
+const selectedWorkshopDates = computed(() => {
+  if (!selectedWorkshopId.value) return [];
+  const workshop = workshops.value.find(w => w.id === selectedWorkshopId.value);
+  return workshop ? workshop.dates : [];
+});
+
+// --- Image Viewer ---
+const imageViewer = reactive({ isOpen: false, src: '' });
+const openImage = (src: string) => {
+  imageViewer.src = src;
+  imageViewer.isOpen = true;
+};
+const closeImage = () => { imageViewer.isOpen = false; };
+
+// --- Generic Modal ---
+const modal = reactive<{ isOpen: boolean; type: string | null; contentIndex: number }>({ isOpen: false, type: null, contentIndex: 0 });
+
+const openModal = (type: string, startIndex = 0) => {
+  modal.type = type;
+  modal.contentIndex = startIndex;
+  modal.isOpen = true;
+};
+const closeModal = () => { modal.isOpen = false; };
+
+const nextModalContent = () => {
+    if (modal.type === 'workshop') {
+        modal.contentIndex = (modal.contentIndex + 1) % workshops.value.length;
+    }
+};
+const prevModalContent = () => {
+    if (modal.type === 'workshop') {
+        modal.contentIndex = (modal.contentIndex - 1 + workshops.value.length) % workshops.value.length;
+    }
+};
+
+// --- Workshop Mailto Link ---
+const workshopMailtoLink = computed(() => {
+    if (!selectedWorkshopId.value) {
+        return '#';
+    }
+    const workshop = workshops.value.find(w => w.id === selectedWorkshopId.value);
+    if (!workshop) {
+        return '#';
+    }
+
+    const subject = `Anfrage für Workshop: ${workshop.title}`;
+    const dates = selectedWorkshopDates.value.join(', ');
+    const body = `Hallo Jo-Ann,\n\nich interessiere mich für den Workshop "${workshop.title}".\n\nDie von mir gesehenen Termine sind: ${dates}\n\nBitte sende mir bei Gelegenheit weitere Informationen zu.\n\nViele Grüße`;
+    
+    return `mailto:hallo@kik-creations.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+});
+
+const checkWorkshopSelection = (event: MouseEvent) => {
+    if (!selectedWorkshopId.value) {
+        event.preventDefault();
+        alert('Bitte wähle zuerst einen Workshop aus, um eine Anfrage zu senden.');
+    }
+};
+
+// --- Mailto Links ---
+const mailtoLinks = computed(() => {
+    const createMailto = (subject: string, body: string) => `mailto:hallo@kik-creations.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    return {
+        auftragsmalerei: createMailto(
+            'Anfrage für Auftragsmalerei',
+            'Hallo Jo-Ann,\n\nich interessiere mich für eine Auftragsmalerei und würde gerne die Details besprechen.\n\nViele Grüße'
+        ),
+        kooperationen: createMailto(
+            'Anfrage für Kooperation / Offene Ideen',
+            'Hallo Jo-Ann,\n\nich habe eine Idee für eine Kooperation und würde diese gerne mit dir teilen.\n\nViele Grüße'
+        ),
+    };
+});
+
 </script>
 
 <style scoped>
-/* Page-specific styles can be added here */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
 </style>

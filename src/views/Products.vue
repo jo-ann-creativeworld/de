@@ -13,19 +13,31 @@
       </div>
 
       <!-- Products Grid -->
-      <div class="space-y-12">
+      <div class="space-y-16">
         <div
           v-for="(product, index) in products"
           :key="product.id"
-          :class="['bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden border border-sunny-yellow-200 hover:border-sunny-yellow-400 transition-all duration-300 hover:shadow-lg flex flex-col lg:flex',
+          :class="['bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden border border-sunny-yellow-200 transition-all duration-300 hover:shadow-lg flex flex-col lg:flex',
             index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
           ]"
         >
-          <!-- Image -->
-          <div class="lg:w-1/2">
-            <div class="h-64 lg:h-full bg-gradient-to-br from-sunny-yellow-100 to-sky-blue-100 flex items-center justify-center text-8xl animate-float">
-              {{ product.icon }}
+          <!-- Image Gallery -->
+          <div class="lg:w-1/2 relative group">
+            <div class="h-80 lg:h-full w-full overflow-hidden">
+              <img 
+                :src="product.images[galleryState[product.id].currentIndex]" 
+                :alt="product.title"
+                class="w-full h-full object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105"
+                @click="openFullscreen(product.images, galleryState[product.id].currentIndex)"
+              />
             </div>
+            <!-- Gallery Controls -->
+            <button @click="prevImage(product.id)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white rounded-full p-2 transition-opacity opacity-0 group-hover:opacity-100">
+              <ChevronLeft class="h-6 w-6 text-gray-800" />
+            </button>
+            <button @click="nextImage(product.id)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white rounded-full p-2 transition-opacity opacity-0 group-hover:opacity-100">
+              <ChevronRight class="h-6 w-6 text-gray-800" />
+            </button>
           </div>
 
           <!-- Content -->
@@ -40,22 +52,18 @@
             <!-- Features -->
             <div class="grid grid-cols-2 gap-3 mb-8">
               <div v-for="(feature, idx) in product.features" :key="idx" class="flex items-center text-gray-600 font-comic">
-                <span class="w-2 h-2 bg-sunny-yellow-400 rounded-full mr-3"></span>
+                <span :style="{ backgroundColor: product.buttonColor }" class="w-2 h-2 rounded-full mr-3"></span>
                 {{ feature }}
               </div>
             </div>
 
             <!-- Action Button -->
-            <div class="flex flex-col sm:flex-row gap-4">
-              <button :class="[product.buttonClass, 'flex items-center justify-center']">
-                <Download class="mr-2 h-5 w-5" />
-                Download / Kaufen
-              </button>
-              <button class="bg-white/80 hover:bg-white border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-fredoka font-bold py-3 px-6 rounded-full transition-all duration-200 hover:shadow-md flex items-center justify-center">
-                <FileText class="mr-2 h-5 w-5" />
-                Vorschau
-              </button>
-            </div>
+            <a :href="generateMailto(product)" 
+               :style="{ backgroundColor: product.buttonColor }"
+               class="text-white font-fredoka font-bold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg hover:brightness-110 flex items-center justify-center">
+              <Mail class="mr-2 h-5 w-5" />
+              Anfrage via E-Mail
+            </a>
           </div>
         </div>
       </div>
@@ -69,66 +77,144 @@
           Du hast eine spezielle Idee oder brauchst etwas Maßgeschneidertes? 
           Ich entwickle gerne individuelle Materialien für deine Bedürfnisse!
         </p>
-        <button class="creative-button-green">
+        <a :href="individualRequestMailto" class="creative-button-green inline-flex items-center">
+          <Mail class="mr-2 h-5 w-5" />
           Kontakt aufnehmen
-        </button>
+        </a>
       </div>
     </div>
+
+    <!-- Fullscreen Image Viewer -->
+    <transition name="fade">
+      <div v-if="fullscreenState.isOpen" @click="closeFullscreen" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-pointer">
+        <button @click.stop="prevFullscreenImage" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-3 z-10">
+          <ChevronLeft class="h-8 w-8 text-gray-900" />
+        </button>
+        
+        <img :src="fullscreenState.images[fullscreenState.currentIndex]" alt="Vollbild" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" @click.stop>
+        
+        <button @click.stop="nextFullscreenImage" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-3 z-10">
+          <ChevronRight class="h-8 w-8 text-gray-900" />
+        </button>
+
+        <button @click.stop="closeFullscreen" class="absolute top-4 right-4 bg-white/80 hover:bg-white rounded-full p-2">
+            <X class="h-6 w-6 text-gray-900" />
+        </button>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Download, FileText } from 'lucide-vue-next';
+import { ref, reactive, computed } from 'vue';
+import { Mail, ChevronLeft, ChevronRight, X } from 'lucide-vue-next';
+import testbild from '@/assets/testbild.jpg';
 
-const products = [
+const products = ref([
   {
     id: 1,
     title: 'Medienführerschein',
-    icon: '📱',
     description: 'Spielerisch den sicheren Umgang mit Smartphone & Co. lernen. Altersgerechte Übungen und Aufgaben für Kinder von 6-12 Jahren.',
     features: ['Interactive Übungen', 'Eltern-Guide', 'Zertifikat', 'Altersgerecht'],
-    buttonClass: 'creative-button',
-    image: 'https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?w=400&h=300&fit=crop'
+    buttonColor: '#84cc16', // lime-500
+    images: [ testbild, testbild, testbild ]
   },
   {
     id: 2,
     title: 'Portfolio-Vorlagen',
-    icon: '📁',
     description: 'Schöne Layouts für Kita- und Schulprojekte. Einfach zum Ausdrucken und Gestalten - perfekt für kleine Künstler!',
     features: ['15+ Vorlagen', 'Druckfertig', 'Individualisierbar', 'Verschiedene Themen'],
-    buttonClass: 'creative-button-secondary',
-    image: 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=400&h=300&fit=crop'
+    buttonColor: '#3b82f6', // blue-500
+    images: [ testbild, testbild ]
   },
   {
     id: 3,
     title: 'Kita-Kalender',
-    icon: '📅',
     description: 'Ausdruckbarer Bastelkalender für jede Jahreszeit. Mit kreativen Ideen und Anregungen für das ganze Jahr.',
     features: ['12 Monatsblätter', 'Bastelideen', 'Jahreszeitlich', 'Farbig illustriert'],
-    buttonClass: 'creative-button-tertiary',
-    image: 'https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=400&h=300&fit=crop'
+    buttonColor: '#f43f5e', // rose-500
+    images: [ testbild, testbild, testbild ]
   },
   {
     id: 4,
     title: 'Kreisspiele',
-    icon: '🎯',
     description: 'Ideen für Bewegungsspiele im Kreis. Fördern Gemeinschaftsgefühl, Koordination und machen dabei richtig Spaß!',
     features: ['20+ Spiele', 'Altersgruppen 3-8', 'Einfache Regeln', 'Ohne Material'],
-    buttonClass: 'creative-button-green',
-    image: 'https://images.unsplash.com/photo-1517022812141-23620dba5c23?w=400&h=300&fit=crop'
+    buttonColor: '#f97316', // orange-500
+    images: [ testbild, testbild ]
   },
-  {
-    id: 5,
-    title: 'Tischsprüche & Reime',
-    icon: '🍽️',
-    description: 'Kurze Sprüche und Reime für den Essensbeginn. Schaffen Rituale und machen das gemeinsame Essen zu etwas Besonderem.',
-    features: ['30+ Sprüche', 'Verschiedene Anlässe', 'Illustriert', 'Leicht merkbar'],
-    buttonClass: 'creative-button',
-    image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=300&fit=crop'
+]);
+
+// Gallery State
+const galleryState = reactive<Record<number, { currentIndex: number }>>({});
+products.value.forEach(p => {
+  galleryState[p.id] = { currentIndex: 0 };
+});
+
+const nextImage = (productId: number) => {
+  const product = products.value.find(p => p.id === productId);
+  if (product) {
+    const state = galleryState[productId];
+    state.currentIndex = (state.currentIndex + 1) % product.images.length;
   }
-];
+};
+
+const prevImage = (productId: number) => {
+  const product = products.value.find(p => p.id === productId);
+  if (product) {
+    const state = galleryState[productId];
+    state.currentIndex = (state.currentIndex - 1 + product.images.length) % product.images.length;
+  }
+};
+
+// Fullscreen Viewer State
+const fullscreenState = reactive({
+  isOpen: false,
+  images: [] as string[],
+  currentIndex: 0,
+});
+
+const openFullscreen = (images: string[], startIndex: number) => {
+  fullscreenState.images = images;
+  fullscreenState.currentIndex = startIndex;
+  fullscreenState.isOpen = true;
+};
+
+const closeFullscreen = () => {
+  fullscreenState.isOpen = false;
+};
+
+const nextFullscreenImage = () => {
+  fullscreenState.currentIndex = (fullscreenState.currentIndex + 1) % fullscreenState.images.length;
+};
+
+const prevFullscreenImage = () => {
+  fullscreenState.currentIndex = (fullscreenState.currentIndex - 1 + fullscreenState.images.length) % fullscreenState.images.length;
+};
+
+// Mailto Links
+const generateMailto = (product: typeof products.value[0]) => {
+  const subject = encodeURIComponent(`Anfrage für Produkt: ${product.title}`);
+  const body = encodeURIComponent(`Hallo Jo-Ann,\n\nich interessiere mich für das Produkt "${product.title}" und würde gerne mehr darüber erfahren.\n\nViele Grüße`);
+  return `mailto:hallo@kik-creations.de?subject=${subject}&body=${body}`;
+};
+
+const individualRequestMailto = computed(() => {
+  const subject = encodeURIComponent('Anfrage für individuelle Wünsche');
+  const body = encodeURIComponent(`Hallo Jo-Ann,\n\nich habe eine Idee für ein individuelles Projekt und würde gerne die Möglichkeiten mit dir besprechen.\n\nViele Grüße`);
+  return `mailto:hallo@kik-creations.de?subject=${subject}&body=${body}`;
+});
+
 </script>
 
 <style scoped>
-/* Page-specific styles can be added here */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

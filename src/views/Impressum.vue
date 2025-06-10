@@ -110,6 +110,9 @@
               Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind 
               nur für den privaten, nicht kommerziellen Gebrauch gestattet.
             </p>
+            <p class="mt-2">
+              Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen. Für alle auf dieser Seite gezeigten Bilder, Texte und Verkaufsobjekte liegen die notwendigen Nutzungs- und Veröffentlichungsrechte vor.
+            </p>
           </section>
 
           <div class="mt-12 p-6 bg-sunny-yellow-50 rounded-2xl">

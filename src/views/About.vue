@@ -3,11 +3,13 @@
     <div class="max-w-4xl mx-auto">
       <!-- Header -->
       <div class="text-center mb-16">
-        <div class="w-40 h-40 mx-auto mb-8 bg-gradient-to-br from-sunny-yellow-200 to-rose-pink-200 rounded-full flex items-center justify-center text-6xl animate-float">
-          👩‍🎨
+        <div class="relative w-48 h-48 mx-auto mb-8 animate-gentle-float">
+          <div class="absolute inset-0 bg-white p-3 rounded-lg shadow-lg transform -rotate-2 transition-transform duration-500 hover:rotate-0">
+            <img :src="profileImage" alt="Jo-Ann Bachhuber" class="w-full h-full object-cover rounded-md">
+          </div>
         </div>
         <h1 class="text-4xl md:text-5xl font-fredoka font-bold text-gray-800 mb-6">
-          Hallo! Ich bin [Dein Name] 👋
+          Hallo! Ich bin Jo-Ann 👋
         </h1>
         <p class="text-xl font-comic text-gray-700 max-w-3xl mx-auto leading-relaxed">
           Ich bin Jo-Ann Bachhuber, Pädagogin und leidenschaftliche Künstlerin. Mit meinen Angeboten 
@@ -82,7 +84,7 @@
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="text-center">
-              <div class="text-4xl mb-3">❤️</div>
+              <div class="text-4xl mb-3">🌸</div>
               <h3 class="font-fredoka font-bold text-gray-800 mb-2">Empathie</h3>
               <p class="font-comic text-gray-600">
                 Einfühlsam und geduldig im Umgang mit Kindern jeden Alters
@@ -99,43 +101,79 @@
               <div class="text-4xl mb-3">🎨</div>
               <h3 class="font-fredoka font-bold text-gray-800 mb-2">Individualität</h3>
               <p class="font-comic text-gray-600">
-                Maßgeschneiderte Angebote für jede Gruppe und jedes Kind
+                Kreative und individuelle Förderung, die begeistert
               </p>
             </div>
           </div>
         </section>
 
-        <!-- Workshop Galerie -->
+        <!-- Einblicke in meine Workshops -->
         <section class="bg-white/70 backdrop-blur-sm rounded-3xl p-8 border border-sunny-yellow-200">
           <h2 class="text-3xl font-fredoka font-bold text-gray-800 mb-6 text-center">
             Einblicke in meine Workshops 📸
           </h2>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div v-for="(item, index) in galleryItems" :key="index" class="aspect-square bg-gradient-to-br from-sunny-yellow-100 to-sky-blue-100 rounded-2xl flex items-center justify-center text-4xl hover:scale-105 transition-transform cursor-pointer">
-              {{ item.emoji }}
+            <div v-for="(image, index) in workshopImages" :key="index" class="overflow-hidden rounded-lg cursor-pointer group" @click="openViewer(image.src)">
+              <img :src="image.src" :alt="image.alt" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300">
             </div>
           </div>
-          <p class="text-center font-comic text-gray-600 mt-6">
-            Hier entstehen täglich kleine Kunstwerke und große Ideen! 
-            Klicke auf die Bilder für eine größere Ansicht.
-          </p>
         </section>
       </div>
     </div>
+
+    <!-- Fullscreen Image Viewer -->
+    <transition name="fade">
+      <div v-if="isViewerOpen" @click="closeViewer" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-pointer">
+        <img :src="selectedImage" alt="Vollbild" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" @click.stop="closeViewer">
+      </div>
+    </transition>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue';
 import { Heart, Award, Star } from 'lucide-vue-next';
+import testbild from '@/assets/testbild.jpg';
 
-const galleryItems = [
-  { emoji: '🎨' },
-  { emoji: '✂️' },
-  { emoji: '🖍️' },
-  { emoji: '📝' },
-];
+const profileImage = testbild;
+
+const workshopImages = ref([
+  { src: testbild, alt: 'Einblick in Workshop 1' },
+  { src: testbild, alt: 'Einblick in Workshop 2' },
+  { src: testbild, alt: 'Einblick in Workshop 3' },
+  { src: testbild, alt: 'Einblick in Workshop 4' },
+]);
+
+const selectedImage = ref<string | null>(null);
+const isViewerOpen = computed(() => !!selectedImage.value);
+
+const openViewer = (src: string) => {
+  selectedImage.value = src;
+};
+
+const closeViewer = () => {
+  selectedImage.value = null;
+};
 </script>
 
 <style scoped>
-/* Add any page-specific styles here */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(-3deg); }
+  50% { transform: translateY(-20px) rotate(-3deg); }
+  100% { transform: translateY(0px) rotate(-3deg); }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

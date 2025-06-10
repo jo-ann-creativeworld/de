@@ -43,24 +43,25 @@
             <h2 class="text-2xl font-fredoka font-bold text-gray-800 mb-4">
               3. Datenerfassung auf dieser Website
             </h2>
+            
             <h3 class="text-xl font-fredoka font-bold text-gray-800 mb-2">
-              Server-Log-Dateien
+              Cookies
             </h3>
             <p>
-              Der Provider der Seiten erhebt und speichert automatisch Informationen in 
-              so genannten Server-Log-Dateien, die Ihr Browser automatisch an uns übermittelt. 
-              Dies sind:
+              Diese Website verwendet keine Cookies.
             </p>
-            <ul class="list-disc list-inside mt-2 space-y-1">
-              <li>Browsertyp und Browserversion</li>
-              <li>verwendetes Betriebssystem</li>
-              <li>Referrer URL</li>
-              <li>Hostname des zugreifenden Rechners</li>
-              <li>Uhrzeit der Serveranfrage</li>
-              <li>IP-Adresse</li>
-            </ul>
+
+            <h3 class="text-xl font-fredoka font-bold text-gray-800 mt-6 mb-2">
+              Hosting via GitHub Pages
+            </h3>
+            <p>
+              Diese Website wird bei GitHub Pages gehostet, einem Dienst der GitHub, Inc., 88 Colin P. Kelly Junior Street, San Francisco, CA 94107, USA. Beim Besuch der Website erfasst GitHub Log-Daten, wie z.B. die IP-Adresse des Besuchers, den Browsertyp, das Betriebssystem und weitere technische Informationen, um die Sicherheit und Funktionalität des Dienstes zu gewährleisten.
+            </p>
             <p class="mt-2">
-              Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen.
+              Diese Daten werden nicht mit anderen Datenquellen zusammengeführt und dienen ausschließlich dem Betrieb der Seite. Weitere Informationen zum Datenschutz bei GitHub finden Sie in der Datenschutzerklärung von GitHub:
+              <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer" class="text-sunny-yellow-600 hover:text-sunny-yellow-700 ml-1">
+                GitHub Privacy Statement
+              </a>.
             </p>
           </section>
 

@@ -63,10 +63,9 @@
             Aktionsradius
           </h3>
           <div class="space-y-3 font-comic text-gray-700">
-            <p>• <strong>Hauptbereich:</strong> [Deine Stadt] + 30km Umkreis</p>
+            <p>• <strong>Hauptbereich:</strong> Berlin + 30 Kilometer Umkreis</p>
             <p>• <strong>Weitere Entfernungen:</strong> Nach Absprache</p>
-            <p>• <strong>Online-Workshops:</strong> Deutschlandweit möglich</p>
-            <p>• <strong>Digitale Produkte:</strong> Weltweit verfügbar</p>
+            <p>• <strong>Digitale Produkte:</strong> Im Deutschsprachigem Bereich verfügbar</p>
           </div>
         </div>
       </div>
@@ -125,7 +124,7 @@ const contactButtons = [
   {
     title: 'Instagram folgen',
     icon: '📸',
-    description: 'Entdecke täglich neue Kunstwerke, Workshop-Einblicke und kreative Inspiration!',
+    description: 'Entdecke neue Kunstwerke, Workshop-Einblicke, Aktuelles und kreative Inspiration!',
     action: 'https://instagram.com/kreatives_fuer_kinder',
     buttonClass: 'creative-button-tertiary',
     buttonText: 'Instagram besuchen'

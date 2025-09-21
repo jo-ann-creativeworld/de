@@ -12,9 +12,7 @@
           Hallo! Ich bin Jo-Ann 👋
         </h1>
         <p class="text-xl font-comic text-gray-700 max-w-3xl mx-auto leading-relaxed">
-          Ich bin Jo-Ann Bachhuber, Pädagogin und leidenschaftliche Künstlerin. Mit meinen Angeboten 
-          fördere ich die Fantasie und Medienkompetenz von Kindern auf spielerische 
-          und liebevolle Weise. ✨
+          Ich bin Jo-Ann Bachhuber, Kindheitspädagogin, leidenschaftliche Künstlerin und kreative Freidenkerin. Mit meinen Projekten und Angeboten fördere ich die Fantasie und Kreativität von Kindern auf spielerische und liebevolle Weise.
         </p>
       </div>
 
@@ -28,16 +26,16 @@
           </h2>
           <div class="space-y-4 font-comic text-gray-700 text-lg">
             <p>
-              • Studium der Erziehungswissenschaften mit Schwerpunkt Medienpädagogik
+              • Studium der Kindheitspädagogik 2022 – 2026 mit Schwerpunkt Soziale Professionen im grünen Sektor
             </p>
             <p>
-              • Zusatzqualifikation in Kunsttherapie für Kinder und Jugendliche
+              • Profilbildungen in Kunst- und Gestaltungstherapie, Medienpädagogik
             </p>
             <p>
-              • 8+ Jahre Erfahrung in Kitas, Schulen und Jugendeinrichtungen
+              • Zertifikate in Mathematik & Naturbildung im Kindes- & Jugendalter (EURO-FH) und Künstlerische Bildung im Kindes- & Jugendalter (EURO-FH)
             </p>
             <p>
-              • Regelmäßige Weiterbildungen in digitaler Bildung und kreativen Methoden
+              • Erste Jahre Berufserfahrung in Kindertagesstätten und Grundschulen
             </p>
           </div>
         </section>
@@ -52,13 +50,11 @@
             <div class="space-y-4 font-comic text-gray-700 text-lg">
               <p class="font-bold text-grass-green-600">Partizipation:</p>
               <p>
-                Jedes Kind hat wertvolle Ideen! Ich schaffe Räume, in denen Kinder 
-                ihre Kreativität frei entfalten und eigene Projekte gestalten können.
+                Jedes Kind hat wertvolle Ideen! Ich möchte Räume schaffen, in denen Kindern ihre Kreativität frei entfalten und eigene Projekte gestalten können.
               </p>
               <p class="font-bold text-grass-green-600 mt-6">Nachhaltigkeit:</p>
               <p>
-                Umweltbewusstsein beginnt früh. Wir verwenden natürliche Materialien 
-                und upcyceln Gegenstände zu neuen Kunstwerken.
+                Umweltbewusstsein beginnt früh. Ich möchte daher größtenteils natürliche Materialien nutzen. Upcycling ist auch ein Thema, welches in bearbeite.
               </p>
             </div>
             <div class="space-y-4 font-comic text-gray-700 text-lg">
@@ -113,7 +109,7 @@
             Einblicke in meine Workshops 📸
           </h2>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div v-for="(image, index) in workshopImages" :key="index" class="overflow-hidden rounded-lg cursor-pointer group" @click="openViewer(image.src)">
+            <div v-for="(image, index) in workshopImages" :key="index" class="overflow-hidden rounded-lg cursor-pointer group" @click="openViewer(index)">
               <img :src="image.src" :alt="image.alt" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300">
             </div>
           </div>
@@ -121,10 +117,22 @@
       </div>
     </div>
 
-    <!-- Fullscreen Image Viewer -->
+    <!-- Fullscreen Image Viewer with Arrows (same style as Products) -->
     <transition name="fade">
-      <div v-if="isViewerOpen" @click="closeViewer" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-pointer">
-        <img :src="selectedImage" alt="Vollbild" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" @click.stop="closeViewer">
+      <div v-if="viewer.isOpen" @click="closeViewer" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-pointer">
+        <button @click.stop="prevViewerImage" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-3 z-10">
+          <ChevronLeft class="h-8 w-8 text-gray-900" />
+        </button>
+
+        <img :src="currentViewerSrc" alt="Vollbild" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" @click.stop>
+
+        <button @click.stop="nextViewerImage" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-3 z-10">
+          <ChevronRight class="h-8 w-8 text-gray-900" />
+        </button>
+
+        <button @click.stop="closeViewer" class="absolute top-4 right-4 bg-white/80 hover:bg-white rounded-full p-2">
+          <X class="h-6 w-6 text-gray-900" />
+        </button>
       </div>
     </transition>
   </div>
@@ -132,7 +140,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { Heart, Award, Star } from 'lucide-vue-next';
+import { Heart, Award, Star, ChevronLeft, ChevronRight, X } from 'lucide-vue-next';
 import testbild from '@/assets/testbild.jpg';
 
 const profileImage = testbild;
@@ -144,15 +152,25 @@ const workshopImages = ref([
   { src: testbild, alt: 'Einblick in Workshop 4' },
 ]);
 
-const selectedImage = ref<string | null>(null);
-const isViewerOpen = computed(() => !!selectedImage.value);
+// Fullscreen viewer state with arrows
+const viewer = ref<{ isOpen: boolean; index: number }>({ isOpen: false, index: 0 });
+const currentViewerSrc = computed(() => workshopImages.value[viewer.value.index]?.src ?? '');
 
-const openViewer = (src: string) => {
-  selectedImage.value = src;
+const openViewer = (index: number) => {
+  viewer.value.index = index;
+  viewer.value.isOpen = true;
 };
 
 const closeViewer = () => {
-  selectedImage.value = null;
+  viewer.value.isOpen = false;
+};
+
+const nextViewerImage = () => {
+  viewer.value.index = (viewer.value.index + 1) % workshopImages.value.length;
+};
+
+const prevViewerImage = () => {
+  viewer.value.index = (viewer.value.index - 1 + workshopImages.value.length) % workshopImages.value.length;
 };
 </script>
 

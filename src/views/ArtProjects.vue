@@ -34,9 +34,15 @@
 
                 <!-- Action Buttons -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
-                  <button @click="openModal('workshop', 0)" class="creative-button-secondary justify-center">Mehr Infos</button>
+                  <button @click="openModal('workshop', 0)"
+                    class="text-white font-fredoka font-bold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg hover:brightness-110 inline-flex items-center justify-center"
+                    :style="{ backgroundColor: '#38bdf8' }">
+                    Mehr Infos
+                  </button>
                   <a :href="workshopMailtoLink"
-                    :class="['creative-button-sky-blue justify-center', { 'opacity-50 cursor-not-allowed': !selectedWorkshopId }]"
+                    :class="[{ 'opacity-50 cursor-not-allowed': !selectedWorkshopId } ]"
+                    class="text-white font-fredoka font-bold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg hover:brightness-110 inline-flex items-center justify-center"
+                    :style="{ backgroundColor: '#84cc16' }"
                     :aria-disabled="!selectedWorkshopId"
                     @click="checkWorkshopSelection">
                     Anfrage via E-Mail
@@ -81,8 +87,16 @@
             <div>
               <p class="font-comic text-lg text-gray-700 mb-6">Du hast eine Vision? Ich bringe sie auf die Leinwand. Lass uns gemeinsam dein persönliches Kunstwerk erschaffen.</p>
               <div class="flex flex-col sm:flex-row gap-4">
-                <button @click="openModal('auftragsmalerei')" class="creative-button-lime-green w-full justify-center">Mehr Infos</button>
-                <a :href="mailtoLinks.auftragsmalerei" class="creative-button-secondary w-full justify-center">Anfrage via E-Mail</a>
+                <button @click="openModal('auftragsmalerei')"
+                  class="text-white font-fredoka font-bold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg hover:brightness-110 inline-flex items-center justify-center w-full"
+                  :style="{ backgroundColor: '#84cc16' }">
+                  Mehr Infos
+                </button>
+                <a :href="mailtoLinks.auftragsmalerei"
+                  class="text-white font-fredoka font-bold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg hover:brightness-110 inline-flex items-center justify-center w-full"
+                  :style="{ backgroundColor: '#f59e0b' }">
+                  Anfrage via E-Mail
+                </a>
               </div>
             </div>
           </div>
@@ -94,7 +108,11 @@
            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
               <p class="font-comic text-lg text-gray-700 mb-6">Kunst verbindet! Ob in Schulen, Gemeinden oder Unternehmen – ich gestalte kreative Aktionen, die Menschen zusammenbringen.</p>
-              <button @click="openModal('gemeinschaftsprojekte')" class="creative-button-grape-purple w-full justify-center">Mehr Infos</button>
+              <button @click="openModal('gemeinschaftsprojekte')"
+              class="text-white font-fredoka font-bold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg hover:brightness-110 inline-flex items-center justify-center w-full"
+              :style="{ backgroundColor: '#a855f7' }">
+              Mehr Infos
+            </button>
             </div>
             <div class="h-64 md:h-full bg-gradient-to-br from-grape-purple-100 to-rose-pink-100 rounded-2xl flex items-center justify-center text-6xl">
               🤝
@@ -106,19 +124,30 @@
         <div class="mt-16 text-center bg-white/70 backdrop-blur-sm rounded-3xl p-12 border border-sunny-yellow-200">
             <h2 class="text-3xl font-fredoka font-bold text-gray-800 mb-4">Offen für Ideen & Kooperationen?</h2>
             <p class="text-xl font-comic text-gray-700 mb-8 max-w-2xl mx-auto">Du hast eine spannende Idee, eine Anfrage für eine Kollaboration oder ein Projekt? Ich freue mich, von dir zu hören!</p>
-            <a :href="mailtoLinks.kooperationen" class="creative-button-yellow inline-flex items-center">
-                <Mail class="mr-2 h-5 w-5" />
-                Kontakt aufnehmen
+            <a :href="mailtoLinks.kooperationen"
+               class="text-white font-fredoka font-bold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg hover:brightness-110 inline-flex items-center"
+               :style="{ backgroundColor: '#f59e0b' }">
+              <Mail class="mr-2 h-5 w-5" />
+              Kontakt aufnehmen
             </a>
         </div>
       </div>
     </div>
 
-    <!-- Fullscreen Image Viewer -->
+    <!-- Fullscreen Image Viewer with Arrows (same design as Products) -->
     <transition name="fade">
       <div v-if="imageViewer.isOpen" @click="closeImage" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-pointer">
-        <img :src="imageViewer.src" alt="Vollbild Kunstwerk" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" @click.stop>
-         <button @click.stop="closeImage" class="absolute top-4 right-4 bg-white/80 hover:bg-white rounded-full p-2">
+        <button @click.stop="prevImage" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-3 z-10">
+          <ChevronLeft class="h-8 w-8 text-gray-900" />
+        </button>
+
+        <img :src="currentImageSrc" alt="Vollbild Kunstwerk" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" @click.stop>
+
+        <button @click.stop="nextImage" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-3 z-10">
+          <ChevronRight class="h-8 w-8 text-gray-900" />
+        </button>
+
+        <button @click.stop="closeImage" class="absolute top-4 right-4 bg-white/80 hover:bg-white rounded-full p-2">
             <X class="h-6 w-6 text-gray-900" />
         </button>
       </div>
@@ -207,12 +236,16 @@ const selectedWorkshopDates = computed(() => {
 });
 
 // --- Image Viewer ---
-const imageViewer = reactive({ isOpen: false, src: '' });
+const imageViewer = reactive({ isOpen: false, index: 0 });
+const currentImageSrc = computed(() => artPieces.value[imageViewer.index]?.src ?? '');
 const openImage = (src: string) => {
-  imageViewer.src = src;
+  const idx = artPieces.value.findIndex(p => p.src === src);
+  imageViewer.index = idx >= 0 ? idx : 0;
   imageViewer.isOpen = true;
 };
 const closeImage = () => { imageViewer.isOpen = false; };
+const nextImage = () => { imageViewer.index = (imageViewer.index + 1) % artPieces.value.length; };
+const prevImage = () => { imageViewer.index = (imageViewer.index - 1 + artPieces.value.length) % artPieces.value.length; };
 
 // --- Generic Modal ---
 const modal = reactive<{ isOpen: boolean; type: string | null; contentIndex: number }>({ isOpen: false, type: null, contentIndex: 0 });

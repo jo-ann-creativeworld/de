@@ -80,7 +80,7 @@
               Nachhaltigkeit
             </h3>
             <p class="text-gray-600 font-comic">
-              Umweltbewusstes Basteln mit natürlichen und recycelten Materialien.
+              Umweltbewusste Projekte mit natürlichen und recycelten Materialien. Die Projekte bleiben außerdem nachhaltig bestehen.
             </p>
           </div>
           <div class="bg-white/60 rounded-2xl p-6 border border-rose-pink-200">
@@ -89,7 +89,7 @@
               Spaß am Lernen
             </h3>
             <p class="text-gray-600 font-comic">
-              Spielerisch und fröhlich neue Fähigkeiten entdecken und entwickeln.
+              Spielerisch und mit Freude neue Fähigkeiten entdecken und entwickeln.
             </p>
           </div>
         </div>

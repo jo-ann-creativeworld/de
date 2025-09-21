@@ -1,67 +1,91 @@
 <template>
-  <nav class="bg-white/90 backdrop-blur-sm border-b border-sunny-yellow-200 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <div class="flex items-center">
-          <router-link to="/" class="flex-shrink-0">
-            <h1 class="text-2xl font-fredoka font-bold text-sunny-yellow-600 hover:text-sunny-yellow-700 transition-colors">
-              Kreatives für Kinder
-            </h1>
-          </router-link>
-        </div>
+  <header class="main-header">
+    <nav class="main-nav">
+      <div class="nav-container">
+        <div class="nav-content">
+          <div class="logo-container">
+            <router-link to="/" class="logo-link">
+              <h1 class="logo-text">Kreatives für Kinder</h1>
+            </router-link>
+          </div>
 
-        <!-- Desktop menu -->
-        <div class="hidden lg:flex items-center space-x-8">
-          <router-link
-            v-for="item in navItems"
-            :key="item.path"
-            :to="item.path"
-            :class="getLinkClasses(item)"
-          >
-            {{ item.name }}
-          </router-link>
-        </div>
+          <!-- Desktop Menu -->
+          <div class="desktop-menu">
+            <router-link
+              v-for="item in navItems"
+              :key="item.path"
+              :to="item.path"
+              class="nav-link"
+              :class="{ 'is-active': isActive(item.path) }"
+              :data-color="item.color"
+            >
+              {{ item.name }}
+            </router-link>
+          </div>
 
-        <!-- Mobile menu button -->
-        <div class="lg:hidden flex items-center">
-          <Button
-            variant="ghost"
-            size="icon"
-            @click="isOpen = !isOpen"
-            class="text-gray-700 hover:text-sunny-yellow-600"
-          >
-            <X v-if="isOpen" class="h-6 w-6" />
-            <Menu v-else class="h-6 w-6" />
-          </Button>
+          <!-- Mobile Menu Button -->
+          <div class="mobile-menu-toggle-wrapper">
+            <button class="mobile-menu-toggle" @click="isOpen = true" aria-label="Menü öffnen">
+              <Menu class="icon" />
+            </button>
+          </div>
         </div>
       </div>
+    </nav>
+  </header>
 
-      <!-- Mobile menu -->
-      <div v-if="isOpen" class="lg:hidden">
-        <div class="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm border-t border-sunny-yellow-200">
-          <router-link
-            v-for="item in navItems"
-            :key="item.path"
-            :to="item.path"
-            @click="isOpen = false"
-            :class="getMobileLinkClasses(item)"
-          >
-            {{ item.name }}
-          </router-link>
-        </div>
+  <!-- Mobile Menu Overlay -->
+  <Transition name="fade">
+    <div v-if="isOpen" @click="isOpen = false" class="mobile-menu-overlay" aria-hidden="true"></div>
+  </Transition>
+
+  <Transition name="slide-from-right">
+    <div v-if="isOpen" class="mobile-menu-panel">
+      <div class="mobile-menu-header">
+        <button class="mobile-menu-close" @click="isOpen = false" aria-label="Menü schließen">
+          <X class="icon" />
+        </button>
+      </div>
+      <div class="mobile-menu-body">
+        <nav class="mobile-nav">
+          <ul class="mobile-nav-list">
+            <li v-for="item in navItems" :key="item.path">
+              <router-link
+                :to="item.path"
+                @click="isOpen = false"
+                class="mobile-nav-link"
+                :class="{ 'is-active': isActive(item.path) }"
+                :data-color="item.color"
+              >
+                {{ item.name }}
+              </router-link>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
-  </nav>
+  </Transition>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { Menu, X } from 'lucide-vue-next';
-import { Button } from '@/components/ui/button';
 
 const isOpen = ref(false);
 const route = useRoute();
+
+watch(isOpen, (is) => {
+  if (is) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+});
+
+onUnmounted(() => {
+  document.body.style.overflow = '';
+});
 
 const navItems = [
   { name: 'Start', path: '/', color: 'sunny-yellow' },
@@ -74,63 +98,238 @@ const navItems = [
 ];
 
 const isActive = (path: string) => route.path === path;
-
-const getLinkClasses = (item: typeof navItems[0]) => {
-  const active = isActive(item.path);
-  return [
-    'px-3 py-2 rounded-md text-sm font-fredoka font-medium transition-colors',
-    active
-      ? `text-${item.color}-600 bg-${item.color}-50`
-      : `text-gray-700 hover:text-${item.color}-600 hover:bg-${item.color}-50`,
-  ];
-};
-
-const getMobileLinkClasses = (item: typeof navItems[0]) => {
-  const active = isActive(item.path);
-  return [
-    'block px-3 py-2 rounded-md text-base font-fredoka font-medium transition-colors',
-    active
-      ? `text-${item.color}-600 bg-${item.color}-50`
-      : `text-gray-700 hover:text-${item.color}-600 hover:bg-${item.color}-50`,
-  ];
-};
-
 </script>
 
-<style>
-/* Safelist for Tailwind CSS to generate dynamic classes */
-.text-sunny-yellow-600 { --tw-text-opacity: 1; color: rgb(234 179 8 / var(--tw-text-opacity)); }
-.bg-sunny-yellow-50 { --tw-bg-opacity: 1; background-color: rgb(254 252 232 / var(--tw-bg-opacity)); }
-.hover\:text-sunny-yellow-600:hover { --tw-text-opacity: 1; color: rgb(234 179 8 / var(--tw-text-opacity)); }
-.hover\:bg-sunny-yellow-50:hover { --tw-bg-opacity: 1; background-color: rgb(254 252 232 / var(--tw-bg-opacity)); }
+<style scoped>
+/* ========================================================================
+   MAIN HEADER & NAVIGATION
+   ======================================================================== */
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
 
-.text-sky-blue-600 { --tw-text-opacity: 1; color: rgb(2 132 199 / var(--tw-text-opacity)); }
-.bg-sky-blue-50 { --tw-bg-opacity: 1; background-color: rgb(240 249 255 / var(--tw-bg-opacity)); }
-.hover\:text-sky-blue-600:hover { --tw-text-opacity: 1; color: rgb(2 132 199 / var(--tw-text-opacity)); }
-.hover\:bg-sky-blue-50:hover { --tw-bg-opacity: 1; background-color: rgb(240 249 255 / var(--tw-bg-opacity)); }
+.main-nav {
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid var(--sunny-yellow-light);
+}
 
-.text-rose-pink-600 { --tw-text-opacity: 1; color: rgb(225 29 72 / var(--tw-text-opacity)); }
-.bg-rose-pink-50 { --tw-bg-opacity: 1; background-color: rgb(255 241 242 / var(--tw-bg-opacity)); }
-.hover\:text-rose-pink-600:hover { --tw-text-opacity: 1; color: rgb(225 29 72 / var(--tw-text-opacity)); }
-.hover\:bg-rose-pink-50:hover { --tw-bg-opacity: 1; background-color: rgb(255 241 242 / var(--tw-bg-opacity)); }
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
 
-.text-lime-green-600 { --tw-text-opacity: 1; color: rgb(101 163 13 / var(--tw-text-opacity)); }
-.bg-lime-green-50 { --tw-bg-opacity: 1; background-color: rgb(247 254 231 / var(--tw-bg-opacity)); }
-.hover\:text-lime-green-600:hover { --tw-text-opacity: 1; color: rgb(101 163 13 / var(--tw-text-opacity)); }
-.hover\:bg-lime-green-50:hover { --tw-bg-opacity: 1; background-color: rgb(247 254 231 / var(--tw-bg-opacity)); }
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem; /* 64px */
+}
 
-.text-grape-purple-600 { --tw-text-opacity: 1; color: rgb(147 51 234 / var(--tw-text-opacity)); }
-.bg-grape-purple-50 { --tw-bg-opacity: 1; background-color: rgb(250 245 255 / var(--tw-bg-opacity)); }
-.hover\:text-grape-purple-600:hover { --tw-text-opacity: 1; color: rgb(147 51 234 / var(--tw-text-opacity)); }
-.hover\:bg-grape-purple-50:hover { --tw-bg-opacity: 1; background-color: rgb(250 245 255 / var(--tw-bg-opacity)); }
+.logo-link {
+  text-decoration: none;
+}
 
-.text-teal-600 { --tw-text-opacity: 1; color: rgb(13 148 136 / var(--tw-text-opacity)); }
-.bg-teal-50 { --tw-bg-opacity: 1; background-color: rgb(240 253 250 / var(--tw-bg-opacity)); }
-.hover\:text-teal-600:hover { --tw-text-opacity: 1; color: rgb(13 148 136 / var(--tw-text-opacity)); }
-.hover\:bg-teal-50:hover { --tw-bg-opacity: 1; background-color: rgb(240 253 250 / var(--tw-bg-opacity)); }
+.logo-text {
+  font-family: var(--font-family-fredoka);
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  color: var(--sunny-yellow-dark);
+  transition: color 0.2s ease-in-out;
+}
 
-.text-orange-600 { --tw-text-opacity: 1; color: rgb(234 88 12 / var(--tw-text-opacity)); }
-.bg-orange-50 { --tw-bg-opacity: 1; background-color: rgb(255 247 237 / var(--tw-bg-opacity)); }
-.hover\:text-orange-600:hover { --tw-text-opacity: 1; color: rgb(234 88 12 / var(--tw-text-opacity)); }
-.hover\:bg-orange-50:hover { --tw-bg-opacity: 1; background-color: rgb(255 247 237 / var(--tw-bg-opacity)); }
+.logo-link:hover .logo-text {
+  color: var(--sunny-yellow-darker);
+}
+
+/* ========================================================================
+   DESKTOP NAVIGATION
+   ======================================================================== */
+.desktop-menu {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .desktop-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem; /* 4px */
+  }
+}
+
+.nav-link {
+  padding: 0.5rem 0.75rem; /* 8px 12px */
+  border-radius: var(--border-radius-md);
+  font-family: var(--font-family-fredoka);
+  font-size: 0.875rem; /* 14px */
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-gray-700);
+  transition: color 0.2s, background-color 0.2s;
+}
+
+/* ========================================================================
+   MOBILE NAVIGATION
+   ======================================================================== */
+.mobile-menu-toggle-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .mobile-menu-toggle-wrapper {
+    display: none;
+  }
+}
+
+.mobile-menu-toggle, .mobile-menu-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-gray-700);
+  padding: 0.5rem;
+}
+
+.mobile-menu-toggle:hover, .mobile-menu-close:hover {
+  color: var(--sunny-yellow-dark);
+}
+
+.mobile-menu-toggle .icon, .mobile-menu-close .icon {
+  width: 1.5rem; /* 24px */
+  height: 1.5rem; /* 24px */
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 50;
+}
+
+.mobile-menu-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  max-width: 20rem; /* 320px */
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
+.mobile-menu-body {
+  flex-grow: 1;
+  padding: 0 1rem 1rem;
+}
+
+.mobile-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+.mobile-nav-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 1rem; /* 12px 16px */
+  border-radius: var(--border-radius-lg);
+  font-size: 1.125rem; /* 18px */
+  font-family: var(--font-family-fredoka);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-gray-800);
+  transition: color 0.2s, background-color 0.2s;
+}
+
+/* ========================================================================
+   DYNAMIC LINK COLORS
+   ======================================================================== */
+
+/* Base Hover for non-active links */
+.nav-link:hover:not(.is-active),
+.mobile-nav-link:hover:not(.is-active) {
+  color: var(--color-gray-900);
+}
+
+/* Sunny Yellow */
+.nav-link.is-active[data-color='sunny-yellow'],
+.mobile-nav-link.is-active[data-color='sunny-yellow'] { background-color: var(--sunny-yellow-light); color: var(--sunny-yellow-darker); }
+.nav-link:hover[data-color='sunny-yellow'],
+.mobile-nav-link:hover[data-color='sunny-yellow'] { background-color: var(--sunny-yellow-x-light); color: var(--sunny-yellow-darker); }
+
+/* Sky Blue */
+.nav-link.is-active[data-color='sky-blue'],
+.mobile-nav-link.is-active[data-color='sky-blue'] { background-color: var(--sky-blue-light); color: var(--sky-blue-darker); }
+.nav-link:hover[data-color='sky-blue'],
+.mobile-nav-link:hover[data-color='sky-blue'] { background-color: var(--sky-blue-x-light); color: var(--sky-blue-darker); }
+
+/* Rose Pink */
+.nav-link.is-active[data-color='rose-pink'],
+.mobile-nav-link.is-active[data-color='rose-pink'] { background-color: var(--rose-pink-light); color: var(--rose-pink-darker); }
+.nav-link:hover[data-color='rose-pink'],
+.mobile-nav-link:hover[data-color='rose-pink'] { background-color: var(--rose-pink-x-light); color: var(--rose-pink-darker); }
+
+/* Lime Green */
+.nav-link.is-active[data-color='lime-green'],
+.mobile-nav-link.is-active[data-color='lime-green'] { background-color: var(--lime-green-light); color: var(--lime-green-darker); }
+.nav-link:hover[data-color='lime-green'],
+.mobile-nav-link:hover[data-color='lime-green'] { background-color: var(--lime-green-x-light); color: var(--lime-green-darker); }
+
+/* Grape Purple */
+.nav-link.is-active[data-color='grape-purple'],
+.mobile-nav-link.is-active[data-color='grape-purple'] { background-color: var(--grape-purple-light); color: var(--grape-purple-darker); }
+.nav-link:hover[data-color='grape-purple'],
+.mobile-nav-link:hover[data-color='grape-purple'] { background-color: var(--grape-purple-x-light); color: var(--grape-purple-darker); }
+
+/* Teal */
+.nav-link.is-active[data-color='teal'],
+.mobile-nav-link.is-active[data-color='teal'] { background-color: var(--teal-light); color: var(--teal-darker); }
+.nav-link:hover[data-color='teal'],
+.mobile-nav-link:hover[data-color='teal'] { background-color: var(--teal-x-light); color: var(--teal-darker); }
+
+/* Orange */
+.nav-link.is-active[data-color='orange'],
+.mobile-nav-link.is-active[data-color='orange'] { background-color: var(--orange-light); color: var(--orange-darker); }
+.nav-link:hover[data-color='orange'],
+.mobile-nav-link:hover[data-color='orange'] { background-color: var(--orange-x-light); color: var(--orange-darker); }
+
+
+/* ========================================================================
+   TRANSITIONS
+   ======================================================================== */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-from-right-enter-active,
+.slide-from-right-leave-active {
+  transition: transform 0.3s ease;
+}
+.slide-from-right-enter-from,
+.slide-from-right-leave-to {
+  transform: translateX(100%);
+}
 </style>

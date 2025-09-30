@@ -38,6 +38,7 @@ jobs:
         run: npm run build -- --outDir dist-ftp
         env:
           NODE_ENV: production
+          DEPLOY_TARGET: ftp
 
       - name: Upload GH Pages artifact ⬆️
         uses: actions/upload-artifact@v4

@@ -4,7 +4,8 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/de',
+  // Use repo base for GitHub Pages and root for FTP deployments
+  base: process.env.DEPLOY_TARGET === 'gh-pages' ? '/de/' : '/',
   plugins: [vue()],
   resolve: {
     alias: {

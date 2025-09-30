@@ -48,11 +48,11 @@
               {{ product.description }}
             </p>
 
-            <!-- Features -->
-            <div class="flex flex-wrap gap-6 mb-8">
-              <div v-for="(feature, idx) in product.features" :key="idx" class="flex items-center text-gray-600 font-comic whitespace-nowrap">
-                <span :style="{ backgroundColor: product.buttonColor }" class="w-3 h-3 rounded-full mr-3 flex-shrink-0 min-w-[12px] min-h-[12px]"></span>
-                {{ feature }}
+            <!-- Features (two columns) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-10 mb-8">
+              <div v-for="(feature, idx) in product.features" :key="idx" class="flex items-center text-gray-600 font-comic">
+                <span :style="{ backgroundColor: product.buttonColor }" class="w-3 h-3 rounded-full mr-3 flex-shrink-0"></span>
+                <span>{{ feature }}</span>
               </div>
             </div>
 
@@ -75,9 +75,13 @@
         </p>
 
         <!-- Übersicht: Karten im 2-Spalten-Layout -->
-        <div v-if="!selectedBox" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-          <div
-            v-for="box in boxes"
+        <div v-if="!selectedBox" class="mb-10">
+          <div v-if="visibleBoxes.length === 0 && isProd" class="text-center py-12">
+            <p class="font-fredoka text-xl text-gray-700">Kommt demnächst</p>
+          </div>
+          <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div
+            v-for="box in visibleBoxes"
             :key="box.id"
             class="bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden border border-sunny-yellow-200 transition-all duration-300 hover:shadow-lg lg:flex"
           >
@@ -92,11 +96,12 @@
               <button
                 :style="{ backgroundColor: box.color }"
                 class="text-white font-fredoka font-bold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg hover:brightness-110 inline-flex items-center justify-center"
-                @click="() => { selectedBoxId = box.id; boxShowMore = false; boxGalleryIndex = 0; }"
+                @click="() => onSelectBox(box)"
               >
                 Mehr Infos
                 <ChevronRight class="ml-2 h-5 w-5" />
               </button>
+            </div>
             </div>
           </div>
         </div>
@@ -105,6 +110,24 @@
         <transition name="slide-fade">
           <div v-if="selectedBox" class="bg-white/70 backdrop-blur-sm rounded-3xl p-6 md:p-10 border border-sunny-yellow-200">
             <div class="flex flex-col lg:flex-row gap-8 items-start">
+              <!-- Placeholder in production for incomplete boxes -->
+              <div v-if="isProd && !selectedBox.isComplete" class="w-full">
+                <h3 class="text-3xl font-fredoka font-bold text-gray-800 mb-3">{{ selectedBox.title }}</h3>
+                <div class="text-center py-16">
+                  <p class="font-fredoka text-xl text-gray-700">Kommt demnächst</p>
+                </div>
+                <div class="flex items-center gap-3 w-full mt-4">
+                  <button
+                    class="text-gray-800 bg-white/80 border border-gray-300 font-fredoka font-bold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg inline-flex items-center mx-auto"
+                    @click="backToOverview"
+                  >
+                    Zur Übersicht
+                  </button>
+                </div>
+              </div>
+
+              <!-- Bild/Galerie & Inhalte nur wenn vollständig oder im Dev -->
+              <template v-else>
               <!-- Bild/Galerie -->
               <div class="lg:w-1/2 relative group rounded-2xl overflow-hidden border border-gray-200">
                 <img :src="selectedBox.images[boxGalleryIndex]" :alt="selectedBox.title" class="w-full h-80 object-cover cursor-pointer" @click="openFullscreen(selectedBox.images, boxGalleryIndex)">
@@ -121,10 +144,10 @@
                 <h3 class="text-3xl font-fredoka font-bold text-gray-800 mb-3">{{ selectedBox.title }}</h3>
                 <p class="text-gray-700 font-comic text-lg mb-6 leading-relaxed">{{ selectedBox.description }}</p>
 
-                <div class="flex flex-wrap gap-6 mb-6">
-                  <div v-for="(feature, idx) in selectedBox.features" :key="idx" class="flex items-center text-gray-600 font-comic whitespace-nowrap">
-                    <span :style="{ backgroundColor: selectedBox.color }" class="w-3 h-3 rounded-full mr-3 flex-shrink-0 min-w-[12px] min-h-[12px]"></span>
-                    {{ feature }}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-10 mb-6">
+                  <div v-for="(feature, idx) in selectedBox.features" :key="idx" class="flex items-center text-gray-600 font-comic">
+                    <span :style="{ backgroundColor: selectedBox.color }" class="w-3 h-3 rounded-full mr-3 flex-shrink-0"></span>
+                    <span>{{ feature }}</span>
                   </div>
                 </div>
 
@@ -171,6 +194,7 @@
                   </div>
                 </transition>
               </div>
+              </template>
             </div>
           </div>
         </transition>
@@ -217,6 +241,8 @@ import { ref, reactive, computed } from 'vue';
 import { Mail, ChevronLeft, ChevronRight, ChevronDown, X } from 'lucide-vue-next';
 import testbild from '@/assets/testbild.jpg';
 
+const isProd = import.meta.env.PROD;
+
 const products = ref([
   {
     id: 1,
@@ -261,15 +287,21 @@ type Box = {
   color: string;
   images: string[];
   more: { inhalte: string; zielgruppe: string; hinweise: string };
+  isComplete: boolean;
 };
 
 const boxes = ref<Box[]>([
-  { id: 'zahlen1', title: 'Zahlen 1', description: 'Grundbegriffe der Zahlenwelt spielerisch entdecken.', features: ['Zahlenposter', 'Übungsblätter', 'Kreativaufgaben'], color: '#84cc16', images: [testbild, testbild], more: { inhalte: 'Platzhalter – bitte Inhalte liefern.', zielgruppe: 'Platzhalter – bitte Zielgruppe liefern.', hinweise: 'Platzhalter – bitte Hinweise liefern.' } },
-  { id: 'abc1', title: 'ABC 1', description: 'Buchstaben kennenlernen und kreativ umsetzen.', features: ['Alphabetkarten', 'Mal- & Schreibübungen'], color: '#3b82f6', images: [testbild], more: { inhalte: 'Platzhalter – bitte Inhalte liefern.', zielgruppe: 'Platzhalter – bitte Zielgruppe liefern.', hinweise: 'Platzhalter – bitte Hinweise liefern.' } },
-  { id: 'englisch1', title: 'Englisch 1', description: 'Erste englische Wörter und spielerisches Lernen.', features: ['Vokabelkarten', 'Spiele & Aufgaben'], color: '#f59e0b', images: [testbild, testbild, testbild], more: { inhalte: 'Platzhalter – bitte Inhalte liefern.', zielgruppe: 'Platzhalter – bitte Zielgruppe liefern.', hinweise: 'Platzhalter – bitte Hinweise liefern.' } },
-  { id: 'kunst1', title: 'Kunst 1', description: 'Kreative Projekte zum Malen, Basteln und Gestalten.', features: ['Projektkarten', 'Materialliste'], color: '#f43f5e', images: [testbild], more: { inhalte: 'Platzhalter – bitte Inhalte liefern.', zielgruppe: 'Platzhalter – bitte Zielgruppe liefern.', hinweise: 'Platzhalter – bitte Hinweise liefern.' } },
-  { id: 'tiere1', title: 'Tiere 1', description: 'Die Tierwelt entdecken – mit Spaß und Bewegung.', features: ['Tierkarten', 'Mitmachideen'], color: '#10b981', images: [testbild, testbild], more: { inhalte: 'Platzhalter – bitte Inhalte liefern.', zielgruppe: 'Platzhalter – bitte Zielgruppe liefern.', hinweise: 'Platzhalter – bitte Hinweise liefern.' } },
+  { id: 'zahlen1', title: 'Zahlen 1', description: 'Grundbegriffe der Zahlenwelt spielerisch entdecken.', features: ['Zahlenposter', 'Übungsblätter', 'Kreativaufgaben'], color: '#84cc16', images: [testbild, testbild], more: { inhalte: 'Platzhalter – bitte Inhalte liefern.', zielgruppe: 'Platzhalter – bitte Zielgruppe liefern.', hinweise: 'Platzhalter – bitte Hinweise liefern.' }, isComplete: false },
+  { id: 'abc1', title: 'ABC 1', description: 'Buchstaben kennenlernen und kreativ umsetzen.', features: ['Alphabetkarten', 'Mal- & Schreibübungen'], color: '#3b82f6', images: [testbild], more: { inhalte: 'Platzhalter – bitte Inhalte liefern.', zielgruppe: 'Platzhalter – bitte Zielgruppe liefern.', hinweise: 'Platzhalter – bitte Hinweise liefern.' }, isComplete: false },
+  { id: 'englisch1', title: 'Englisch 1', description: 'Erste englische Wörter und spielerisches Lernen.', features: ['Vokabelkarten', 'Spiele & Aufgaben'], color: '#f59e0b', images: [testbild, testbild, testbild], more: { inhalte: 'Platzhalter – bitte Inhalte liefern.', zielgruppe: 'Platzhalter – bitte Zielgruppe liefern.', hinweise: 'Platzhalter – bitte Hinweise liefern.' }, isComplete: false },
+  { id: 'kunst1', title: 'Kunst 1', description: 'Kreativstart ab 3: Malen, Basteln und Entdecken – mit eigener Malschürze.', features: ['Kreativer Start', 'Farben & Formen entdecken', 'Kindermalschürze', 'Sticker & Überraschung'], color: '#f43f5e', images: [testbild], more: { inhalte: 'Arbeitsblätter; Dominosteine & Platzierhilfe; Persönliche Kindermalschürze; Sammel-Postkarte & Elternbroschüre; Leinwand, Farben, Pinsel & Mischpalette; Krepppapier; Eine Überraschung; Sammel-Sticker', zielgruppe: 'Kinder ab 3 Jahren, die Freude am Malen und Gestalten haben; Eltern und Familien, die kreative Momente gemeinsam erleben möchten; Ideales Geschenk für kleine Künstlerinnen und Künstler', hinweise: 'Geeignet für Kinder ab 3 Jahren; Unter Aufsicht von Erwachsenen verwenden; Kleidung und Umgebung schützen – Farben können Flecken hinterlassen; Optional: passende personalisierte Erwachsenen-Malschürze gegen Aufpreis' }, isComplete: true },
+  { id: 'tiere1', title: 'Tiere 1', description: 'Die Tierwelt entdecken – mit Spaß und Bewegung.', features: ['Tierkarten', 'Mitmachideen'], color: '#10b981', images: [testbild, testbild], more: { inhalte: 'Platzhalter – bitte Inhalte liefern.', zielgruppe: 'Platzhalter – bitte Zielgruppe liefern.', hinweise: 'Platzhalter – bitte Hinweise liefern.' }, isComplete: false },
 ]);
+
+// Sichtbare Boxen je nach Umgebung
+const visibleBoxes = computed(() => {
+  return isProd ? boxes.value.filter(b => b.isComplete) : boxes.value;
+});
 
 const selectedBoxId = ref<string | null>(null);
 const selectedBox = computed(() => boxes.value.find(b => b.id === selectedBoxId.value) || null);
@@ -282,6 +314,10 @@ const prevBoxImage = () => { if (selectedBox.value) { boxGalleryIndex.value = (b
 
 // Navigation zwischen Boxen & zurück zur Übersicht
 const backToOverview = () => { selectedBoxId.value = null; boxShowMore.value = false; boxGalleryIndex.value = 0; };
+const onSelectBox = (box: Box) => {
+  if (isProd && !box.isComplete) return; // block in production
+  selectedBoxId.value = box.id; boxShowMore.value = false; boxGalleryIndex.value = 0;
+};
 const nextBox = () => {
   if (!selectedBox.value) return;
   const idx = boxes.value.findIndex(b => b.id === selectedBox.value!.id);
@@ -350,13 +386,13 @@ const prevFullscreenImage = () => {
 const generateMailto = (product: typeof products.value[0]) => {
   const subject = encodeURIComponent(`Anfrage für Produkt: ${product.title}`);
   const body = encodeURIComponent(`Hallo Jo-Ann,\n\nich interessiere mich für das Produkt "${product.title}" und würde gerne mehr darüber erfahren.\n\nViele Grüße`);
-  return `mailto:hallo@kik-creations.de?subject=${subject}&body=${body}`;
+  return `mailto:kontakt@buntpapier-atelier.de?subject=${subject}&body=${body}`;
 };
 
 const individualRequestMailto = computed(() => {
   const subject = encodeURIComponent('Anfrage für individuelle Wünsche');
   const body = encodeURIComponent(`Hallo Jo-Ann,\n\nich habe eine Idee für ein individuelles Projekt und würde gerne die Möglichkeiten mit dir besprechen.\n\nViele Grüße`);
-  return `mailto:hallo@kik-creations.de?subject=${subject}&body=${body}`;
+  return `mailto:kontakt@buntpapier-atelier.de?subject=${subject}&body=${body}`;
 });
 
 </script>

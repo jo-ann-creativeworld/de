@@ -82,14 +82,14 @@
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <button
-            @click="handleContact('mailto:kontakt@kreatives-fuer-kinder.de')"
+            @click="handleContact('mailto:kontakt@buntpapier-atelier.de')"
             class="creative-button inline-flex items-center"
           >
             <Mail class="mr-2 h-5 w-5" />
             Nachricht schreiben
           </button>
           <button
-            @click="handleContact('https://instagram.com/kreatives_fuer_kinder')"
+            @click="handleContact('https://www.instagram.com/jo_ann276/')"
             class="creative-button-tertiary inline-flex items-center"
           >
             <ExternalLink class="mr-2 h-5 w-5" />
@@ -109,7 +109,7 @@ const contactButtons = [
     title: 'E-Mail schreiben',
     icon: '✉️',
     description: 'Schreib mir direkt eine Nachricht! Ich antworte meist innerhalb von 24 Stunden.',
-    action: 'mailto:kontakt@kreatives-fuer-kinder.de',
+    action: 'mailto:kontakt@buntpapier-atelier.de',
     buttonClass: 'creative-button',
     buttonText: 'E-Mail öffnen'
   },
@@ -117,7 +117,7 @@ const contactButtons = [
     title: 'LinkedIn besuchen',
     icon: '🔗',
     description: 'Folge mir auf LinkedIn für professionelle Updates und Einblicke in meine Arbeit.',
-    action: 'https://linkedin.com/in/example',
+    action: 'https://www.linkedin.com/in/jo-ann-b-3573682a3/',
     buttonClass: 'creative-button-secondary',
     buttonText: 'LinkedIn öffnen'
   },
@@ -125,7 +125,7 @@ const contactButtons = [
     title: 'Instagram folgen',
     icon: '📸',
     description: 'Entdecke neue Kunstwerke, Workshop-Einblicke, Aktuelles und kreative Inspiration!',
-    action: 'https://instagram.com/kreatives_fuer_kinder',
+    action: 'https://www.instagram.com/jo_ann276/',
     buttonClass: 'creative-button-tertiary',
     buttonText: 'Instagram besuchen'
   }

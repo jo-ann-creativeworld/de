@@ -12,9 +12,9 @@
               Angaben gemäß § 5 TMG
             </h2>
             <div class="space-y-2">
-              <p><strong>[Dein vollständiger Name]</strong></p>
-              <p>[Deine Straße und Hausnummer]</p>
-              <p>[PLZ] [Deine Stadt]</p>
+              <p><strong>Jo-Ann Bachhuber</strong></p>
+              <p>Allee der Kosmonauten 202</p>
+              <p>12685 Berlin</p>
               <p><strong>Deutschland</strong></p>
             </div>
           </section>
@@ -24,10 +24,36 @@
               Kontakt
             </h2>
             <div class="space-y-2">
-              <p><strong>Telefon:</strong> [Deine Telefonnummer]</p>
-              <p><strong>E-Mail:</strong> kontakt@kreatives-fuer-kinder.de</p>
-              <p><strong>Website:</strong> www.kreatives-fuer-kinder.de</p>
+              <p>
+                <strong>Telefon:</strong>
+                <a href="tel:+4917660849867" class="text-sunny-yellow-600 hover:text-sunny-yellow-700">+49 176 60849867</a>
+              </p>
+              <p>
+                <strong>E-Mail:</strong>
+                <a href="mailto:kontakt@buntpapier-atelier.de" class="text-sky-blue-700 hover:text-sky-blue-800 font-semibold">kontakt@buntpapier-atelier.de</a>
+              </p>
+              <p>
+                <strong>Website:</strong>
+                <a href="https://buntpapier-atelier.de" target="_blank" rel="noopener noreferrer" class="text-rose-pink-700 hover:text-rose-pink-800 font-semibold">buntpapier-atelier.de</a>
+              </p>
             </div>
+          </section>
+
+          <section>
+            <h2 class="text-2xl font-fredoka font-bold text-gray-800 mb-4">Rechtsform</h2>
+            <p>Privatperson (Einzelperson).</p>
+          </section>
+
+          <section>
+            <h2 class="text-2xl font-fredoka font-bold text-gray-800 mb-4">Umsatzsteuer</h2>
+            <p>Keine Umsatzsteuer-ID vorhanden.</p>
+          </section>
+
+          <section>
+            <h2 class="text-2xl font-fredoka font-bold text-gray-800 mb-4">Hosting-Provider</h2>
+            <p>
+              Hosting durch Netcup GmbH, Karlsruhe, Deutschland. Technische Serverinfrastruktur: Deutschland.
+            </p>
           </section>
 
           <section>
@@ -35,35 +61,9 @@
               Berufsbezeichnung und berufsrechtliche Regelungen
             </h2>
             <div class="space-y-2">
-              <p><strong>Berufsbezeichnung:</strong> Pädagogin & Künstlerin</p>
-              <p><strong>Zuständige Kammer:</strong> [Falls zutreffend]</p>
+              <p><strong>Berufsbezeichnung:</strong> Studentin der Kindheitspädagogik & Künstlerin</p>
               <p><strong>Verliehen in:</strong> Deutschland</p>
             </div>
-          </section>
-
-          <section>
-            <h2 class="text-2xl font-fredoka font-bold text-gray-800 mb-4">
-              EU-Streitschlichtung
-            </h2>
-            <p>
-              Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: 
-              <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" class="text-sunny-yellow-600 hover:text-sunny-yellow-700 ml-1">
-                https://ec.europa.eu/consumers/odr/
-              </a>
-            </p>
-            <p class="mt-2">
-              Unsere E-Mail-Adresse finden Sie oben im Impressum.
-            </p>
-          </section>
-
-          <section>
-            <h2 class="text-2xl font-fredoka font-bold text-gray-800 mb-4">
-              Verbraucherstreitbeilegung/Universalschlichtungsstelle
-            </h2>
-            <p>
-              Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer 
-              Verbraucherschlichtungsstelle teilzunehmen.
-            </p>
           </section>
 
           <section>
@@ -71,9 +71,9 @@
               Haftung für Inhalte
             </h2>
             <p>
-              Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten 
-              nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als 
-              Diensteanbieter jedoch nicht unter der Verpflichtung, übermittelte oder gespeicherte 
+              Als Diensteanbieterin bin ich gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten 
+              nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG bin ich als 
+              Diensteanbieterin jedoch nicht verpflichtet, übermittelte oder gespeicherte 
               fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine 
               rechtswidrige Tätigkeit hinweisen.
             </p>
@@ -81,7 +81,7 @@
               Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den 
               allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch 
               erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei 
-              Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+              Bekanntwerden von entsprechenden Rechtsverletzungen werde ich diese Inhalte umgehend entfernen.
             </p>
           </section>
 
@@ -90,8 +90,8 @@
               Haftung für Links
             </h2>
             <p>
-              Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen 
-              Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. 
+              Mein Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte ich keinen 
+              Einfluss habe. Deshalb kann ich für diese fremden Inhalte auch keine Gewähr übernehmen. 
               Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der 
               Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf 
               mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der 
@@ -111,16 +111,10 @@
               nur für den privaten, nicht kommerziellen Gebrauch gestattet.
             </p>
             <p class="mt-2">
-              Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen. Für alle auf dieser Seite gezeigten Bilder, Texte und Verkaufsobjekte liegen die notwendigen Nutzungs- und Veröffentlichungsrechte vor.
+              Soweit die Inhalte auf dieser Seite nicht von mir erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitte ich um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werde ich derartige Inhalte umgehend entfernen. Für alle auf dieser Seite gezeigten Bilder, Texte und Verkaufsobjekte liegen die notwendigen Nutzungs- und Veröffentlichungsrechte vor.
             </p>
           </section>
 
-          <div class="mt-12 p-6 bg-sunny-yellow-50 rounded-2xl">
-            <p class="text-sm text-gray-600 text-center">
-              <strong>Hinweis:</strong> Dies ist ein Muster-Impressum. Bitte lass es von einem 
-              Rechtsanwalt prüfen und an deine spezifischen Gegebenheiten anpassen.
-            </p>
-          </div>
         </div>
       </div>
     </div>

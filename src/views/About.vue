@@ -18,27 +18,8 @@
 
       <!-- Main Content -->
       <div class="space-y-16">
-        <!-- Werdegang -->
-        <section class="bg-white/70 backdrop-blur-sm rounded-3xl p-8 border border-sky-blue-200">
-          <h2 class="text-3xl font-fredoka font-bold text-gray-800 mb-6 flex items-center">
-            <Award class="mr-3 text-sky-blue-500" />
-            Mein Werdegang 📚
-          </h2>
-          <div class="space-y-4 font-comic text-gray-700 text-lg">
-            <p>
-              • Studium der Kindheitspädagogik 2022 – 2026 mit Schwerpunkt Soziale Professionen im grünen Sektor
-            </p>
-            <p>
-              • Profilbildungen in Kunst- und Gestaltungstherapie, Medienpädagogik
-            </p>
-            <p>
-              • Zertifikate in Mathematik & Naturbildung im Kindes- & Jugendalter (EURO-FH) und Künstlerische Bildung im Kindes- & Jugendalter (EURO-FH)
-            </p>
-            <p>
-              • Erste Jahre Berufserfahrung in Kindertagesstätten und Grundschulen
-            </p>
-          </div>
-        </section>
+        <!-- Werdegang Timeline -->
+        <Timeline />
 
         <!-- Philosophie -->
         <section class="bg-white/70 backdrop-blur-sm rounded-3xl p-8 border border-grass-green-200">
@@ -54,7 +35,7 @@
               </p>
               <p class="font-bold text-grass-green-600 mt-6">Nachhaltigkeit:</p>
               <p>
-                Umweltbewusstsein beginnt früh. Ich möchte daher größtenteils natürliche Materialien nutzen. Upcycling ist auch ein Thema, welches in bearbeite.
+                Das Gelernte bleibt langfristig bestehen: Wir gestalten Dinge, die genutzt und erinnert werden. Gebastelte und gewerkte Materialien kommen im Alltag weiter zum Einsatz. Der Großteil jeder Wunderbox kann anschließend als freies Spiel- und Lernmaterial weiterverwendet werden.
               </p>
             </div>
             <div class="space-y-4 font-comic text-gray-700 text-lg">
@@ -65,8 +46,7 @@
               </p>
               <p class="font-bold text-grass-green-600 mt-6">Individualität:</p>
               <p>
-                Jedes Kind ist einzigartig. Ich gehe auf die Bedürfnisse und 
-                Interessen jedes einzelnen Kindes ein.
+                Jedes Kind ist einzigartig. Aufgaben und Materialien passe ich altersgerecht an und berücksichtige Bedürfnisse – barrierearm, persönlich und wertschätzend.
               </p>
             </div>
           </div>
@@ -108,7 +88,10 @@
           <h2 class="text-3xl font-fredoka font-bold text-gray-800 mb-6 text-center">
             Einblicke in meine Workshops 📸
           </h2>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div v-if="isProd && !isWorkshopsComplete" class="text-center py-12">
+            <p class="font-fredoka text-xl text-gray-700">Kommt demnächst</p>
+          </div>
+          <div v-else class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div v-for="(image, index) in workshopImages" :key="index" class="overflow-hidden rounded-lg cursor-pointer group" @click="openViewer(index)">
               <img :src="image.src" :alt="image.alt" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300">
             </div>
@@ -119,7 +102,7 @@
 
     <!-- Fullscreen Image Viewer with Arrows (same style as Products) -->
     <transition name="fade">
-      <div v-if="viewer.isOpen" @click="closeViewer" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-pointer">
+      <div v-if="!isProd || isWorkshopsComplete ? viewer.isOpen : false" @click="closeViewer" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-pointer">
         <button @click.stop="prevViewerImage" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-3 z-10">
           <ChevronLeft class="h-8 w-8 text-gray-900" />
         </button>
@@ -140,10 +123,15 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { Heart, Award, Star, ChevronLeft, ChevronRight, X } from 'lucide-vue-next';
+import { Heart, Star, ChevronLeft, ChevronRight, X } from 'lucide-vue-next';
+import Timeline from '@/components/Timeline.vue';
 import testbild from '@/assets/testbild.jpg';
 
 const profileImage = testbild;
+
+const isProd = import.meta.env.PROD;
+// Markiere als true, sobald echte Workshop-Daten/Bilder final sind
+const isWorkshopsComplete = false;
 
 const workshopImages = ref([
   { src: testbild, alt: 'Einblick in Workshop 1' },

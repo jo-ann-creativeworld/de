@@ -6,6 +6,9 @@
         <h1 class="text-4xl md:text-6xl font-fredoka font-bold text-gray-800 mb-6">
           Willkommen bei <span class="text-sunny-yellow-600">Kreatives für Kinder</span>! ✨
         </h1>
+        <p class="text-lg md:text-xl font-fredoka text-grape-purple-800 mb-4">
+          Buntpapier Atelier – Wo Ideen ihre Farbe bekommen!
+        </p>
         <p class="text-xl md:text-2xl font-comic text-gray-700 mb-8 max-w-3xl mx-auto">
           Hier entstehen wunderbare Lernmaterialien und Kunstprojekte, die Kindern 
           Freude bereiten und ihre Kreativität fördern! 🌟
@@ -80,7 +83,7 @@
               Nachhaltigkeit
             </h3>
             <p class="text-gray-600 font-comic">
-              Umweltbewusste Projekte mit natürlichen und recycelten Materialien. Die Projekte bleiben außerdem nachhaltig bestehen.
+              Das Gelernte und die Projekte bleiben langfristig bestehen und erinnern.
             </p>
           </div>
           <div class="bg-white/60 rounded-2xl p-6 border border-rose-pink-200">

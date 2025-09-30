@@ -9,6 +9,19 @@
         <div class="space-y-8 font-comic text-gray-700">
           <section>
             <h2 class="text-2xl font-fredoka font-bold text-gray-800 mb-4">
+              Verantwortliche Stelle
+            </h2>
+            <div class="space-y-1">
+              <p><strong>Jo-Ann Bachhuber</strong></p>
+              <p>Allee der Kosmonauten 202</p>
+              <p>12685 Berlin, Deutschland</p>
+              <p><strong>E-Mail:</strong> 
+                <a href="mailto:datenschutz@buntpapier-atelier.de" class="text-sky-blue-600 hover:text-sky-blue-700">datenschutz@buntpapier-atelier.de</a>
+              </p>
+            </div>
+          </section>
+          <section>
+            <h2 class="text-2xl font-fredoka font-bold text-gray-800 mb-4">
               1. Datenschutz auf einen Blick
             </h2>
             <h3 class="text-xl font-fredoka font-bold text-gray-800 mb-2">
@@ -29,8 +42,8 @@
               Datenschutz
             </h3>
             <p>
-              Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. 
-              Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend der 
+              Ich nehme den Schutz Ihrer persönlichen Daten sehr ernst. 
+              Ich behandle Ihre personenbezogenen Daten vertraulich und entsprechend der 
               gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.
             </p>
             <p class="mt-2">
@@ -44,24 +57,12 @@
               3. Datenerfassung auf dieser Website
             </h2>
             
-            <h3 class="text-xl font-fredoka font-bold text-gray-800 mb-2">
-              Cookies
-            </h3>
-            <p>
-              Diese Website verwendet keine Cookies.
-            </p>
+            <h3 class="text-xl font-fredoka font-bold text-gray-800 mb-2">Cookies</h3>
+            <p>Diese Website verwendet derzeit keine Cookies und keine Analyse-Tools.</p>
 
-            <h3 class="text-xl font-fredoka font-bold text-gray-800 mt-6 mb-2">
-              Hosting via GitHub Pages
-            </h3>
+            <h3 class="text-xl font-fredoka font-bold text-gray-800 mt-6 mb-2">Hosting</h3>
             <p>
-              Diese Website wird bei GitHub Pages gehostet, einem Dienst der GitHub, Inc., 88 Colin P. Kelly Junior Street, San Francisco, CA 94107, USA. Beim Besuch der Website erfasst GitHub Log-Daten, wie z.B. die IP-Adresse des Besuchers, den Browsertyp, das Betriebssystem und weitere technische Informationen, um die Sicherheit und Funktionalität des Dienstes zu gewährleisten.
-            </p>
-            <p class="mt-2">
-              Diese Daten werden nicht mit anderen Datenquellen zusammengeführt und dienen ausschließlich dem Betrieb der Seite. Weitere Informationen zum Datenschutz bei GitHub finden Sie in der Datenschutzerklärung von GitHub:
-              <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer" class="text-sunny-yellow-600 hover:text-sunny-yellow-700 ml-1">
-                GitHub Privacy Statement
-              </a>.
+              Diese Website wird bei Netcup GmbH, Karlsruhe, Deutschland gehostet. Beim Besuch der Website werden Server-Logfiles verarbeitet (z. B. IP-Adresse, Datum und Uhrzeit des Abrufs, Referrer, User-Agent). Diese Daten sind technisch erforderlich, um die Inhalte der Website korrekt auszuliefern und die Sicherheit zu gewährleisten und werden nach angemessener Frist gelöscht.
             </p>
           </section>
 
@@ -70,17 +71,17 @@
               4. Kontaktformular und E-Mail-Kontakt
             </h2>
             <p>
-              Wenn Sie uns per E-Mail kontaktieren, wird Ihre Anfrage inklusive aller daraus 
+              Wenn Sie mich per E-Mail kontaktieren, wird Ihre Anfrage inklusive aller daraus 
               hervorgehenden personenbezogenen Daten (Name, Anfrage) zum Zwecke der Bearbeitung 
-              Ihres Anliegens bei uns gespeichert und verarbeitet. Diese Daten geben wir nicht 
+              Ihres Anliegens bei mir gespeichert und verarbeitet. Diese Daten gebe ich nicht 
               ohne Ihre Einwilligung weiter.
             </p>
             <p class="mt-2">
               Die Verarbeitung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO, 
               sofern Ihre Anfrage mit der Erfüllung eines Vertrags zusammenhängt oder zur 
               Durchführung vorvertraglicher Maßnahmen erforderlich ist. In allen übrigen Fällen 
-              beruht die Verarbeitung auf unserem berechtigten Interesse an der effektiven 
-              Bearbeitung der an uns gerichteten Anfragen (Art. 6 Abs. 1 lit. f DSGVO) oder 
+              beruht die Verarbeitung auf meinem berechtigten Interesse an der effektiven 
+              Bearbeitung der an mich gerichteten Anfragen (Art. 6 Abs. 1 lit. f DSGVO) oder 
               auf Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) sofern diese abgefragt wurde.
             </p>
           </section>
@@ -134,8 +135,8 @@
               7. Änderungen der Datenschutzerklärung
             </h2>
             <p>
-              Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den 
-              aktuellen rechtlichen Anforderungen entspricht oder um Änderungen unserer 
+              Ich behalte mir vor, diese Datenschutzerklärung anzupassen, damit sie stets den 
+              aktuellen rechtlichen Anforderungen entspricht oder um Änderungen meiner 
               Leistungen in der Datenschutzerklärung umzusetzen. Für Ihren erneuten Besuch 
               gilt dann die neue Datenschutzerklärung.
             </p>
@@ -146,20 +147,16 @@
               8. Kontakt bei Fragen zum Datenschutz
             </h2>
             <p>
-              Bei Fragen zum Datenschutz können Sie sich jederzeit an uns wenden:
+              Bei Fragen zum Datenschutz können Sie sich jederzeit an mich wenden:
             </p>
             <div class="mt-2 space-y-1">
-              <p><strong>E-Mail:</strong> kontakt@kreatives-fuer-kinder.de</p>
-              <p><strong>Postanschrift:</strong> [Ihre Adresse aus dem Impressum]</p>
+              <p><strong>E-Mail:</strong> 
+                <a href="mailto:datenschutz@buntpapier-atelier.de" class="text-sky-blue-600 hover:text-sky-blue-700">datenschutz@buntpapier-atelier.de</a>
+              </p>
+              <p><strong>Postanschrift:</strong> Jo-Ann Bachhuber, Allee der Kosmonauten 202, 12685 Berlin</p>
             </div>
           </section>
 
-          <div class="mt-12 p-6 bg-sky-blue-50 rounded-2xl">
-            <p class="text-sm text-gray-600 text-center">
-              <strong>Hinweis:</strong> Dies ist eine Muster-Datenschutzerklärung. Bitte lass sie 
-              von einem Rechtsanwalt prüfen und an deine spezifischen Gegebenheiten anpassen.
-            </p>
-          </div>
         </div>
       </div>
     </div>

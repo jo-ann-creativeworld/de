@@ -5,7 +5,7 @@
         <div class="nav-content">
           <div class="logo-container">
             <router-link to="/" class="logo-link">
-              <h1 class="logo-text">Kreatives für Kinder</h1>
+              <h1 class="logo-text">Das Buntpapier Atelier</h1>
             </router-link>
           </div>
 
@@ -93,8 +93,8 @@ const navItems = [
   { name: 'Produkte', path: '/products', color: 'rose-pink' },
   { name: 'Kunstprojekte', path: '/art-projects', color: 'lime-green' },
   { name: 'Kontakt', path: '/contact', color: 'grape-purple' },
-  { name: 'Impressum', path: '/impressum', color: 'teal' },
-  { name: 'Datenschutz', path: '/datenschutz', color: 'orange' },
+  { name: 'Impressum', path: '/imprint', color: 'teal' },
+  { name: 'Datenschutz', path: '/privacy', color: 'orange' },
 ];
 
 const isActive = (path: string) => route.path === path;

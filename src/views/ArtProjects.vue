@@ -19,7 +19,7 @@
           <h2 class="text-3xl font-fredoka font-bold text-gray-800 mb-6">Kreativ-Workshops</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             <div>
-              <p class="font-comic text-lg text-gray-700 mb-6">Wähle einen Workshop, um verfügbare Termine zu sehen. In den Workshops entdecken wir gemeinsam neue Techniken und Materialien.</p>
+              <p class="font-comic text-lg text-gray-700 mb-6">Wähle einen Workshop, um verfügbare Termine zu sehen. In meinen Workshops entdecken wir gemeinsam neue Techniken und Materialien.</p>
               <div class="space-y-4">
                 <!-- Custom Dropdown -->
                 <div class="relative">
@@ -183,9 +183,9 @@
                 <div v-if="modal.type === 'auftragsmalerei'">
                     <h3 class="text-2xl font-fredoka font-bold text-gray-800 mb-4">So läuft deine Auftragsarbeit ab</h3>
                     <ul class="space-y-4 font-comic text-gray-700">
-                        <li class="flex items-start"><span class="font-bold text-lime-green-600 mr-3">1.</span><div><span class="font-bold">Motiv wählen:</span> Wir besprechen deine Wünsche und Ideen. Du kannst mir Referenzbilder oder eine genaue Beschreibung geben.</div></li>
+                        <li class="flex items-start"><span class="font-bold text-lime-green-600 mr-3">1.</span><div><span class="font-bold">Motiv wählen:</span> Ich bespreche mit dir deine Wünsche und Ideen. Du kannst mir Referenzbilder oder eine genaue Beschreibung geben.</div></li>
                         <li class="flex items-start"><span class="font-bold text-lime-green-600 mr-3">2.</span><div><span class="font-bold">Größe der Leinwand wählen:</span> Von kleinen Formaten bis hin zu großen Wandbildern ist alles möglich.</div></li>
-                        <li class="flex items-start"><span class="font-bold text-lime-green-600 mr-3">3.</span><div><span class="font-bold">Material wählen:</span> Acryl, Öl, Aquarell oder eine Mischtechnik? Wir finden das passende Material für dein Kunstwerk.</div></li>
+                        <li class="flex items-start"><span class="font-bold text-lime-green-600 mr-3">3.</span><div><span class="font-bold">Material wählen:</span> Acryl, Öl, Aquarell oder eine Mischtechnik? Ich finde mit dir das passende Material für dein Kunstwerk.</div></li>
                     </ul>
                 </div>
 
@@ -193,8 +193,8 @@
                 <div v-if="modal.type === 'gemeinschaftsprojekte'">
                     <h3 class="text-2xl font-fredoka font-bold text-gray-800 mb-4">Detaillierte Infos zu Gemeinschaftsprojekten</h3>
                      <ul class="space-y-4 font-comic text-gray-700">
-                        <li class="flex items-start"><span class="font-bold text-grape-purple-600 mr-3">1.</span><div><span class="font-bold">Farbe an die Wand:</span> Gemeinsam gestalten wir Wände in Schulen, Büros oder öffentlichen Räumen zu bunten Kunstwerken.</div></li>
-                        <li class="flex items-start"><span class="font-bold text-grape-purple-600 mr-3">2.</span><div><span class="font-bold">Puzzle-Geschichte:</span> Jede:r Teilnehmer:in gestaltet ein Puzzleteil. Am Ende fügen wir alles zu einer großen, gemeinsamen Geschichte zusammen.</div></li>
+                        <li class="flex items-start"><span class="font-bold text-grape-purple-600 mr-3">1.</span><div><span class="font-bold">Farbe an die Wand:</span> Ich gestalte gemeinsam mit euch Wände in Schulen, Büros oder öffentlichen Räumen zu bunten Kunstwerken.</div></li>
+                        <li class="flex items-start"><span class="font-bold text-grape-purple-600 mr-3">2.</span><div><span class="font-bold">Puzzle-Geschichte:</span> Jede:r Teilnehmer:in gestaltet ein Puzzleteil. Am Ende füge ich alles gemeinsam mit euch zu einer großen Geschichte zusammen.</div></li>
                     </ul>
                 </div>
 
@@ -282,7 +282,7 @@ const workshopMailtoLink = computed(() => {
     const dates = selectedWorkshopDates.value.join(', ');
     const body = `Hallo Jo-Ann,\n\nich interessiere mich für den Workshop "${workshop.title}".\n\nDie von mir gesehenen Termine sind: ${dates}\n\nBitte sende mir bei Gelegenheit weitere Informationen zu.\n\nViele Grüße`;
     
-    return `mailto:hallo@kik-creations.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    return `mailto:kontakt@buntpapier-atelier.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 });
 
 const checkWorkshopSelection = (event: MouseEvent) => {
@@ -294,7 +294,7 @@ const checkWorkshopSelection = (event: MouseEvent) => {
 
 // --- Mailto Links ---
 const mailtoLinks = computed(() => {
-    const createMailto = (subject: string, body: string) => `mailto:hallo@kik-creations.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const createMailto = (subject: string, body: string) => `mailto:kontakt@buntpapier-atelier.de?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
     return {
         auftragsmalerei: createMailto(

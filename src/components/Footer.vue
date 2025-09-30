@@ -4,7 +4,7 @@
       <div class="flex flex-col items-center space-y-4">
         <div class="flex justify-center space-x-6">
           <a
-            href="mailto:hallo@kik-creations.de"
+            href="mailto:kontakt@buntpapier-atelier.de"
             class="text-sunny-yellow-600 hover:text-sunny-yellow-700 font-comic transition-colors"
             target="_blank"
             rel="noopener noreferrer"
@@ -12,7 +12,7 @@
             E-Mail
           </a>
           <a
-            href="#"
+            href="https://www.linkedin.com/in/jo-ann-b-3573682a3/"
             class="text-sky-blue-500 hover:text-sky-blue-600 transition-colors font-comic"
             target="_blank"
             rel="noopener noreferrer"
@@ -20,7 +20,7 @@
             LinkedIn
           </a>
           <a
-            href="#"
+            href="https://www.instagram.com/jo_ann276/"
             class="text-rose-pink-500 hover:text-rose-pink-600 transition-colors font-comic"
             target="_blank"
             rel="noopener noreferrer"
@@ -30,7 +30,7 @@
         </div>
         <div class="text-center pt-4">
           <p class="text-gray-600 font-comic">
-            © 2024 Kreatives für Kinder. Mit Liebe gemacht für kleine Künstler! 🎨
+            © {{ currentYear }} Das Buntpapier Atelier – mit Liebe gemacht für kleine Künstlerinnen und Künstler. 🎨
           </p>
         </div>
       </div>
@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-// No script logic needed for the footer
+const currentYear = new Date().getFullYear();
 </script>
 
 <style scoped>

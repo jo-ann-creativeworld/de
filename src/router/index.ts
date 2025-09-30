@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 import ArtProjects from '../views/ArtProjects.vue';
@@ -10,17 +10,17 @@ import Datenschutz from '../views/Datenschutz.vue';
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/', name: 'Home', component: Home },
-  { path: '/about', name: 'About', component: About },
-  { path: '/art-projects', name: 'ArtProjects', component: ArtProjects },
-  { path: '/contact', name: 'Contact', component: Contact },
-  { path: '/products', name: 'Products', component: Products },
-  { path: '/impressum', name: 'Impressum', component: Impressum },
-  { path: '/datenschutz', name: 'Datenschutz', component: Datenschutz },
+  { path: '/about', name: 'Über mich', component: About },
+  { path: '/art-projects', name: 'Kunstprojekte', component: ArtProjects },
+  { path: '/contact', name: 'Kontakt', component: Contact },
+  { path: '/products', name: 'Produkte', component: Products },
+  { path: '/imprint', name: 'Impressum', component: Impressum },
+  { path: '/privacy', name: 'Datenschutz', component: Datenschutz },
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {

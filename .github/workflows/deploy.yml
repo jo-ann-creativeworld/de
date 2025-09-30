@@ -1,45 +1,130 @@
-name: Deploy to GitHub Pages
+name: Deploy to GH Pages and FTP
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 jobs:
-  build-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout 🛎️
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-      - name: Setup Node.js
+      - name: Setup Node 🔧
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: 18
+          cache: npm
+          cache-dependency-path: ./package-lock.json
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies 📦
+        run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Build for GitHub Pages 🏗️
+        run: npm run build -- --outDir dist-gh
+        env:
+          NODE_ENV: production
+          DEPLOY_TARGET: gh-pages
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Build for FTP 🏗️
+        run: npm run build -- --outDir dist-ftp
+        env:
+          NODE_ENV: production
+
+      - name: Upload GH Pages artifact ⬆️
+        uses: actions/upload-artifact@v4
         with:
-          path: './dist'
+          name: web-dist-gh
+          path: ./dist-gh
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Upload FTP artifact ⬆️
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-dist-ftp
+          path: ./dist-ftp
+
+  deploy_pages:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact ⬇️
+        uses: actions/download-artifact@v4
+        with:
+          name: web-dist-gh
+          path: ./dist
+
+      - name: Create 404.html for SPA routing on GH Pages
+        run: cp ./dist/index.html ./dist/404.html
+
+      - name: Create robots.txt (disallow all) for GH Pages
+        run: |
+          echo "User-agent: *" > ./dist/robots.txt
+          echo "Disallow: /" >> ./dist/robots.txt
+
+      - name: Deploy to gh-pages 🚀
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+
+  ftp_spezialcode:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact ⬇️
+        uses: actions/download-artifact@v4
+        with:
+          name: web-dist-ftp
+          path: ./dist
+
+      - name: Deploy to spezialcode.de via FTP 🌐
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: hosting226601.ae8b8.netcup.net
+          port: 21
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          timeout: 120000
+          server-dir: /httpdocs/
+          local-dir: ./dist/
+          exclude: |
+            */.git
+            */.github/*
+            */node_modules/*
+
+  ftp_specialcode:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact ⬇️
+        uses: actions/download-artifact@v4
+        with:
+          name: web-dist-ftp
+          path: ./dist
+
+      - name: Deploy to specialcode.de via FTP 🌐
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: hosting226601.ae8b8.netcup.net
+          port: 21
+          username: ${{ secrets.FTP_USERNAME_2 }}
+          password: ${{ secrets.FTP_PASSWORD_2 }}
+          protocol: ftps
+          timeout: 120000
+          server-dir: /httpdocs/
+          local-dir: ./dist/
+          exclude: |
+            */.git
+            */.github/*
+            */node_modules/*

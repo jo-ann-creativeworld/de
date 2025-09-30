@@ -221,8 +221,8 @@ const products = ref([
   {
     id: 1,
     title: 'Medienführerschein',
-    description: 'Spielerisch den sicheren Umgang mit digitalen Medien lernen. Altersgerechte Übungen und Aufgaben für Kinder von 6-12 Jahren.',
-    features: ['Kindgerechtes Lernpaket', 'Inkl. Praxisleitfaden für Eltern/Fachkräfte', 'Mitmach-Zertifikat', 'Altersgerecht'],
+    description: 'Spielerisch die erste Medienkompetenz für digitale Medien erlernen. Altergerechte Übungen als Projektbegleitung für Kinder von 5-7 Jahren.',
+    features: ['21 Arbeitsblätter zum Ausfüllen', 'Bastel-Führerschein zum Personalisieren', 'Urkunde für Kinder', 'Selbständig oder angeleitet nutzbar', 'Nur für den Privatgebrauch', 'Versand direkt nach Hause'],
     buttonColor: '#84cc16', // lime-500
     images: [ testbild, testbild, testbild ]
   },
